@@ -10,6 +10,7 @@ This folder is the launch base for the first custom classroom page set.
 - `class-3-results.html` - reveals outcomes, explains the better move, and links worksheets plus flashcard decks.
 - `styles.css` - shared visual system for all class pages.
 - `lesson.js` - lightweight carousel behavior for the Leadership Blind Spots section.
+- `fonts/` - bundled Elms Sans font files and license.
 - `previews/` - static preview images for review only.
 
 ## Design References
@@ -21,8 +22,10 @@ This folder is the launch base for the first custom classroom page set.
 
 - Premium decision-maker feel.
 - Strategic, modern, and visually immersive.
+- Typography: Anton for display headings and Elms Sans for body/UI text.
 - Dark plum/purple for high-impact lesson moments.
 - Cream backgrounds for reflection, resources, and thinking work.
+- Use flat brand color fields. Avoid gradients.
 - Green for progress, emphasis, downloads, and calls to action.
 - Black-and-white or low-saturation imagery so the brand palette stays dominant.
 - Structured content blocks with subtle organic line/shape movement.
@@ -65,6 +68,10 @@ In Systeme.io, each lesson can contain one simple button/link to the correspondi
 - Class 1: `/class-1-intro.html`
 - Class 2: `/class-2-story.html`
 - Class 3: `/class-3-results.html`
+
+For iframe embedding inside a Systeme lecture, add `?embed=1` to reduce top chrome and whitespace:
+
+- Class 2 embed test: `/class-2-story.html?embed=1`
 
 ## Integration Test Before Building Further
 

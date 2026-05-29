@@ -1,4 +1,8 @@
 (function () {
+  if (window.location.search.indexOf("embed=1") !== -1) {
+    document.documentElement.classList.add("is-embed");
+  }
+
   var carousels = document.querySelectorAll("[data-carousel]");
 
   carousels.forEach(function (carousel) {
