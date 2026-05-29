@@ -1,6 +1,12 @@
 (function () {
   if (window.location.search.indexOf("embed=1") !== -1) {
     document.documentElement.classList.add("is-embed");
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
+    }
+    window.setTimeout(function () {
+      window.scrollTo(0, 0);
+    }, 0);
   }
 
   var carousels = document.querySelectorAll("[data-carousel]");
