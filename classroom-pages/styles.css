@@ -890,7 +890,7 @@ a {
 }
 
 .footer-nav a {
-  color: var(--purple);
+  color: var(--green);
   font-weight: 900;
   text-decoration: none;
 }
@@ -1062,12 +1062,13 @@ a {
 
 .is-embed .site-shell {
   background: var(--plum);
+  min-height: 0;
 }
 
 .is-embed .hero {
   min-height: auto;
-  padding-top: clamp(72px, 7vw, 104px);
-  padding-bottom: clamp(34px, 6vw, 66px);
+  padding-top: clamp(34px, 5vw, 68px);
+  padding-bottom: clamp(30px, 5vw, 62px);
 }
 
 .is-embed .hero::after {
@@ -1075,12 +1076,12 @@ a {
 }
 
 .is-embed .band {
-  padding-top: clamp(44px, 6vw, 72px);
-  padding-bottom: clamp(44px, 6vw, 72px);
+  padding-top: clamp(34px, 5vw, 64px);
+  padding-bottom: clamp(34px, 5vw, 64px);
 }
 
 @media (max-width: 560px) {
   .is-embed .hero {
-    padding-top: 58px;
+    padding-top: 34px;
   }
 }
