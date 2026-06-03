@@ -394,6 +394,23 @@ a {
   color: var(--cream);
 }
 
+.band-purple .section-title {
+  color: var(--cream);
+}
+
+.decision-band {
+  padding: clamp(44px, 5vw, 68px) 0;
+}
+
+.decision-band .section-title {
+  max-width: 760px;
+  font-size: clamp(36px, 5vw, 58px);
+}
+
+.decision-band .section-lede {
+  margin-top: 18px;
+}
+
 .section-title {
   max-width: 900px;
   font-size: clamp(38px, 6vw, 74px);
@@ -592,6 +609,14 @@ a {
   border-radius: 4px;
   background: rgba(255, 255, 255, 0.58);
   box-shadow: 0 12px 34px rgba(38, 26, 50, 0.08);
+}
+
+.story-video-panel {
+  overflow: hidden;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
 }
 
 .prompt-panel {
