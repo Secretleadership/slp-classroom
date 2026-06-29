@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SLP Judgment Score</title>
+    <link rel="preload" as="image" href="assets/janine-hero-web.jpg" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main id="app" class="app-shell">
+      <section class="panel hero-panel" data-step="welcome">
+        <div class="brand-row">
+          <img
+            class="brand-logo"
+            src="assets/slp-logo-core.png"
+            alt="The Secret Leadership Playbook"
+          />
+        </div>
+        <p class="eyebrow">Leadership judgment scenario challenge</p>
+        <h1><span class="headline-nowrap">Improve Your</span> Leadership Judgment</h1>
+        <p class="tagline">You're carrying decisions no one trained you for.</p>
+        <p class="lede">
+          Join early access to unlock this short SLP scenario challenge and see
+          how you read signals, weigh consequences, influence others, and move
+          from insight to action.
+        </p>
+        <div class="note">
+          <strong>This is not a personality test.</strong>
+          <span>It is a judgment mirror. Plan for 8-12 focused minutes.</span>
+        </div>
+        <p class="small-copy">
+          Your answers also help Janine understand where leaders are
+          experiencing the most pressure, so SLP can keep responding to real
+          leadership moments, not generic theory.
+        </p>
+        <div class="how-it-works" aria-label="How it works">
+          <div>
+            <span>01</span>
+            <strong>Read the scenario</strong>
+            <p>Step into a realistic leadership moment.</p>
+          </div>
+          <div>
+            <span>02</span>
+            <strong>Choose your move</strong>
+            <p>Select the option you would most likely take.</p>
+          </div>
+          <div>
+            <span>03</span>
+            <strong>Reflect honestly</strong>
+            <p>Use your own words. Avoid AI responses.</p>
+          </div>
+          <div>
+            <span>04</span>
+            <strong>Receive your report</strong>
+            <p>See your judgment pattern and growth edge.</p>
+          </div>
+        </div>
+        <button class="primary-action" type="button" data-next="profile">
+          Join Early Access
+        </button>
+        <div class="paid-preview-card" aria-label="SLP Companion preview">
+          <div class="paid-preview-heading">
+            <div>
+              <p class="eyebrow">SLP Companion</p>
+              <h2>What members unlock</h2>
+            </div>
+            <span class="access-chip">Members only</span>
+          </div>
+          <p>
+            SLP members move from the classroom story into guided practice.
+            Non-members can preview what exists, but access opens through SLP enrolment.
+          </p>
+          <div class="theme-library" aria-label="SLP paid themes">
+            <article class="theme-tile">
+              <span>Volume 1</span>
+              <h3>Leader's Decision Lab</h3>
+              <p>Sort the manufacturing CEO case before the Class 3 reveal.</p>
+              <button class="secondary-action locked-action" type="button" disabled>
+                Members only
+              </button>
+            </article>
+            <article class="theme-tile">
+              <span>Apply Playbook</span>
+              <h3>Worksheets and Flashcards</h3>
+              <p>Future Shaping tools, reflection prompts, and action commitments.</p>
+              <a class="secondary-action link-action" href="apply-playbook.html?access=preview">
+                Preview Apply Playbook
+              </a>
+            </article>
+          </div>
+          <button class="primary-action dormant-member-action" type="button" disabled>
+            Join SLP
+          </button>
+        </div>
+      </section>
+
+      <section class="panel hidden" data-step="profile">
+        <div class="step-header">
+          <p class="eyebrow">Step 1 of 5</p>
+          <h2 data-profile-heading>Submit your details to unlock your score</h2>
+          <p data-profile-intro>
+            Enter your details once. You will join the SLP early access list,
+            then complete the scenario and receive your leadership judgment
+            report.
+          </p>
+        </div>
+        <form id="profile-form" class="form-grid">
+          <label>
+            First name
+            <input name="firstName" required autocomplete="given-name" />
+          </label>
+          <label>
+            Last name
+            <input name="lastName" required autocomplete="family-name" />
+          </label>
+          <label>
+            Email address
+            <input name="email" type="email" required autocomplete="email" />
+          </label>
+          <label class="wide">
+            LinkedIn profile link <span class="optional-label">optional</span>
+            <input
+              name="linkedin"
+              type="url"
+              placeholder="https://www.linkedin.com/in/your-profile"
+              autocomplete="url"
+            />
+            <small>
+              Later, the AI version can use this to add context to your report
+              if you give permission. This prototype only stores the link in the
+              report preview.
+            </small>
+          </label>
+          <label>
+            Closest job title
+            <select name="role" required>
+              <option value="">Select one</option>
+              <option>CEO / Managing Director</option>
+              <option>Founder / Entrepreneur</option>
+              <option>COO / Operations Director</option>
+              <option>CFO / Finance Director</option>
+              <option>Commercial Director / Sales Director</option>
+              <option>HR Director / Chief People Officer</option>
+              <option>General Manager / Business Unit Head</option>
+              <option>Senior Manager / Functional Head</option>
+              <option>Transformation Lead / Strategy Lead</option>
+              <option>Emerging Leader / Promotion-Ready Manager</option>
+              <option>Other</option>
+            </select>
+          </label>
+          <label>
+            Seniority level
+            <select name="seniority" required>
+              <option value="">Select one</option>
+              <option>Founder / CEO</option>
+              <option>Executive / C-suite</option>
+              <option>Senior Manager</option>
+              <option>Middle Manager</option>
+              <option>Team Lead</option>
+              <option>Individual Contributor</option>
+              <option>Other</option>
+            </select>
+          </label>
+          <label>
+            Industry
+            <input name="industry" required />
+          </label>
+          <label>
+            Team size
+            <select name="teamSize" required>
+              <option value="">Select one</option>
+              <option>I do not currently manage a team</option>
+              <option>1-5 people</option>
+              <option>6-15 people</option>
+              <option>16-50 people</option>
+              <option>50+ people</option>
+            </select>
+          </label>
+          <label class="wide">
+            Biggest leadership pressure right now
+            <select name="pressure" required>
+              <option value="">Select one</option>
+              <option>Managing up</option>
+              <option>Leading my team</option>
+              <option>Making better strategic decisions</option>
+              <option>Reading market shifts</option>
+              <option>Future-proofing the business</option>
+              <option>Influencing without authority</option>
+              <option>Moving from insight to action</option>
+              <option>Other</option>
+            </select>
+          </label>
+          <button class="primary-action wide" type="submit">
+            Submit My Details and Start
+          </button>
+        </form>
+      </section>
+
+      <section class="panel hidden" data-step="scenario">
+        <div class="step-header">
+          <p class="eyebrow">Step 2 of 5</p>
+          <h2>The Expansion Decision</h2>
+          <p>
+            Read the situation below and choose the move you would most likely
+            make. There is no perfect answer. Each option reveals a different
+            leadership instinct.
+          </p>
+        </div>
+        <article class="scenario-card">
+          <p>
+            Maya is a Senior Operations Manager at a mid-sized logistics
+            company. She reports directly to the CEO.
+          </p>
+          <p>
+            For the past two quarters, the CEO has been pushing for the
+            business to expand into three new markets at the same time. The
+            board likes the ambition. The sales team sees upside. The CEO
+            believes the timing is right.
+          </p>
+          <p>
+            But Maya is seeing different signals. Her team is already stretched.
+            Two strong performers have quietly raised burnout concerns. Recent
+            margin analysis shows the core market still has untapped
+            opportunity. Customer behaviour is also shifting: clients are asking
+            for more flexible delivery models, not just broader geographic
+            coverage.
+          </p>
+          <p>
+            Maya is not against growth. But she is concerned that the current
+            plan is too broad, too fast, and may distract the business from the
+            future it actually needs to prepare for.
+          </p>
+          <p>
+            The CEO has scheduled a strategy review for Friday. The meeting will
+            include the CEO, CFO, Sales Director, and two board members. Maya
+            has the data, but she also knows the CEO is emotionally committed to
+            the expansion narrative.
+          </p>
+        </article>
+        <button class="primary-action" type="button" data-next="decision">
+          Choose Maya's Move
+        </button>
+      </section>
+
+      <section class="panel hidden" data-step="decision">
+        <div class="step-header">
+          <p class="eyebrow">Step 3 of 5</p>
+          <h2>What would Maya most likely do next?</h2>
+          <p>Choose the move you would most likely make in Maya's position.</p>
+        </div>
+        <form id="decision-form" class="option-list">
+          <label class="option-card">
+            <input type="radio" name="scenarioChoice" value="A" required />
+            <span>
+              <strong>Pressure-Test in the Room</strong>
+              Maya brings the data into the strategy review and frames it as a
+              risk-calibration conversation. She asks the group to pressure-test
+              team capacity, margin impact, customer demand, and sequencing
+              before committing to all three markets.
+            </span>
+          </label>
+          <label class="option-card">
+            <input type="radio" name="scenarioChoice" value="B" required />
+            <span>
+              <strong>Shape the Conversation Before the Room</strong>
+              Maya meets with the CEO before the review. She shares the
+              capacity, margin, and customer-demand signals privately, then asks
+              whether he wants the alternative strategy introduced in the
+              meeting or developed first in a smaller working session.
+            </span>
+          </label>
+          <label class="option-card">
+            <input type="radio" name="scenarioChoice" value="C" required />
+            <span>
+              <strong>Build Guardrails Around the Strategy</strong>
+              Maya aligns with the expansion direction, but proposes a phased
+              rollout with decision gates, capacity checks, margin triggers, and
+              a pause point before all three markets go live.
+            </span>
+          </label>
+          <div class="form-actions">
+            <button class="secondary-action" type="button" data-next="scenario">
+              Back to Scenario
+            </button>
+            <button class="primary-action" type="submit">Continue</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="panel hidden" data-step="reflection">
+        <div class="step-header">
+          <p class="eyebrow">Step 4 of 5</p>
+          <h2>Now reflect on your own leadership context</h2>
+          <p>
+            Answer honestly. The value is in the reflection, not in sounding
+            impressive.
+          </p>
+        </div>
+        <form id="reflection-form" class="reflection-stack">
+          <p class="voice-consent">
+            Prefer speaking? Use the record button to voice-type your answer
+            into the text box. You can review and edit it before submitting.
+          </p>
+          <label>
+            <span>1. Managing Up</span>
+            When you last challenged a decision your senior leadership had
+            already committed to, what signals were you reading that made you
+            speak up? And if you didn't speak up, what signal did you miss that
+            you wish you'd caught earlier?
+            <div class="voice-controls">
+              <button class="secondary-action record-action" type="button" data-target="q1">
+                Start Voice Answer
+              </button>
+              <span class="record-status" data-status="q1"></span>
+            </div>
+            <textarea name="q1" required minlength="20"></textarea>
+          </label>
+          <label>
+            <span>2. Managing Down / Influence</span>
+            Think about the last company or strategic decision that affected
+            your team. What did you read in the room that told you how they
+            were receiving it, and how did you influence clarity, trust, and
+            ownership based on what you sensed?
+            <div class="voice-controls">
+              <button class="secondary-action record-action" type="button" data-target="q2">
+                Start Voice Answer
+              </button>
+              <span class="record-status" data-status="q2"></span>
+            </div>
+            <textarea name="q2" required minlength="20"></textarea>
+          </label>
+          <label>
+            <span>3. Future Shaping / Market Signals</span>
+            What shift in customer behaviour or market demand have you noticed,
+            but not fully acted on yet because your current systems, capacity,
+            product mix, or business model have not made enough room for it?
+            <div class="voice-controls">
+              <button class="secondary-action record-action" type="button" data-target="q3">
+                Start Voice Answer
+              </button>
+              <span class="record-status" data-status="q3"></span>
+            </div>
+            <textarea name="q3" required minlength="20"></textarea>
+          </label>
+          <label>
+            <span>4. Future Shaping / Alternative Futures</span>
+            Beyond the strategy that is already working, what new revenue
+            streams, market opportunities, or future options are you testing so
+            the business can keep growing without being caught flat-footed?
+            <div class="voice-controls">
+              <button class="secondary-action record-action" type="button" data-target="q4">
+                Start Voice Answer
+              </button>
+              <span class="record-status" data-status="q4"></span>
+            </div>
+            <textarea name="q4" required minlength="20"></textarea>
+          </label>
+          <button class="primary-action" type="submit">
+            Calculate My Judgment Score
+          </button>
+        </form>
+      </section>
+
+      <section class="panel hidden" data-step="results">
+        <div id="results-content"></div>
+      </section>
+    </main>
+
+    <script src="app.js?v=20260608-slp-bullets"></script>
+  </body>
+</html>
