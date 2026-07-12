@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Trade-Off Horizon Strategy | SLP Companion</title>
+    <meta name="description" content="SLP Companion exercise for making Horizon 1, 2, and 3 trade-offs with 100 credits.">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="site-shell companion-shell horizon-shell">
+      <header class="topbar">
+        <div class="topbar-inner">
+          <a class="brand-mark" href="#" aria-label="The Secret Leadership Playbook">
+            <span class="brand-symbol" aria-hidden="true"></span>
+            <span>SLP Companion</span>
+          </a>
+          <nav class="class-nav" aria-label="Companion navigation">
+            <a href="slp-companion-horizon-strategy-lab.html">Strategy 1</a>
+            <a href="slp-companion-horizon-strategy-lab-2.html">Strategy 2</a>
+            <span aria-current="page">Strategy 3</span>
+          </nav>
+        </div>
+      </header>
+
+      <section class="companion-hero horizon-hero">
+        <div class="inner">
+          <p class="eyebrow">Future Shaping / Case Study 2</p>
+          <h1>Make the <span class="accent">Trade-Offs</span></h1>
+          <p class="hero-copy">Now the strategy meets reality. You have 100 credits. Decide what you can keep, what you must eliminate, and how you will manage the consequences.</p>
+        </div>
+      </section>
+
+      <section class="band band-cream lab-section">
+        <div class="inner">
+          <p class="section-kicker">Decision Lab Point 3</p>
+          <h2 class="section-title">Spend 100 credits across your horizons.</h2>
+          <p class="section-lede">Your revised strategy may be strong, but resources are limited. Keep the investments you would fund first. For anything you eliminate, name the consequence and how you would manage the gap.</p>
+
+          <div class="tradeoff-lab" data-tradeoff-lab data-source-key="slp-horizon-strategy-lab-2-state" data-storage-key="slp-horizon-strategy-lab-3-state" data-budget="100">
+            <aside class="tradeoff-budget" aria-label="Credit budget">
+              <div>
+                <p class="section-kicker">Available credits</p>
+                <strong><span data-budget-remaining>100</span></strong>
+                <span>remaining</span>
+              </div>
+              <div class="budget-meter" aria-hidden="true">
+                <span data-budget-meter></span>
+              </div>
+              <p data-budget-status>Choose what to keep. Kept investments spend credits.</p>
+            </aside>
+
+            <div class="tradeoff-board" data-tradeoff-board></div>
+
+            <form class="horizon-builder tradeoff-add-form" data-tradeoff-add-form>
+              <div>
+                <p class="section-kicker">Need more to fund?</p>
+                <h2>Add another investment idea.</h2>
+                <p>If your strategy does not use enough credits yet, add another idea and decide whether it deserves funding.</p>
+              </div>
+
+              <div>
+                <label for="tradeoffInvestmentText">Investment or decision</label>
+                <textarea id="tradeoffInvestmentText" name="tradeoffInvestmentText" rows="3" placeholder="What else would you add to make the strategy stronger?"></textarea>
+              </div>
+
+              <div class="horizon-form-grid">
+                <div>
+                  <label for="tradeoffInvestmentHorizon">Place it in</label>
+                  <select id="tradeoffInvestmentHorizon" name="tradeoffInvestmentHorizon">
+                    <option value="h1">Horizon 1 - Sustain and optimize the core</option>
+                    <option value="h2">Horizon 2 - Extend and differentiate</option>
+                    <option value="h3">Horizon 3 - Shape the future</option>
+                  </select>
+                </div>
+                <div>
+                  <label for="tradeoffInvestmentPillar">Strategic pillar</label>
+                  <select id="tradeoffInvestmentPillar" name="tradeoffInvestmentPillar">
+                    <option value="Quality">Quality</option>
+                    <option value="Speed">Speed</option>
+                    <option value="Cost">Cost</option>
+                    <option value="Profit">Profit</option>
+                    <option value="Margins">Margins</option>
+                    <option value="Unit economics">Unit economics</option>
+                    <option value="Customer adoption">Customer adoption</option>
+                    <option value="Retention">Retention</option>
+                    <option value="Product experience">Product experience</option>
+                    <option value="Distribution">Distribution</option>
+                    <option value="Team capability">Team capability</option>
+                    <option value="Capability building">Capability building</option>
+                    <option value="Marketing">Marketing</option>
+                    <option value="Market education">Market education</option>
+                    <option value="Innovation">Innovation</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="horizon-form-grid">
+                <div>
+                  <label for="tradeoffInvestmentCost">Credits</label>
+                  <select id="tradeoffInvestmentCost" name="tradeoffInvestmentCost">
+                    <option value="5">5 credits</option>
+                    <option value="8" selected>8 credits</option>
+                    <option value="10">10 credits</option>
+                    <option value="12">12 credits</option>
+                    <option value="15">15 credits</option>
+                    <option value="20">20 credits</option>
+                  </select>
+                </div>
+                <div>
+                  <label for="tradeoffInvestmentWhy">Why add it?</label>
+                  <textarea id="tradeoffInvestmentWhy" name="tradeoffInvestmentWhy" rows="2" placeholder="What gap does this strengthen?"></textarea>
+                </div>
+              </div>
+
+              <button class="cta" type="submit">Add idea to credit round</button>
+            </form>
+
+            <div class="horizon-save-panel">
+              <div>
+                <p class="section-kicker">Trade-off strategy</p>
+                <h2>Save the strategy you can actually resource.</h2>
+                <p>Before saving, make sure your kept investments fit within the available credit budget.</p>
+              </div>
+              <div class="form-actions-row">
+                <button class="cta" type="button" data-save-tradeoff-strategy>Save trade-off strategy</button>
+              </div>
+              <p class="save-status" data-tradeoff-save-status></p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <script src="lesson.js"></script>
+  </body>
+</html>

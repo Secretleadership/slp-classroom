@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Second Horizon Strategy | SLP Companion</title>
+    <meta name="description" content="SLP Companion exercise for revising a Horizon 1, 2, and 3 strategy after Class 2 gives more information.">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="site-shell companion-shell horizon-shell">
+      <header class="topbar">
+        <div class="topbar-inner">
+          <a class="brand-mark" href="#" aria-label="The Secret Leadership Playbook">
+            <span class="brand-symbol" aria-hidden="true"></span>
+            <span>SLP Companion</span>
+          </a>
+          <nav class="class-nav" aria-label="Companion navigation">
+            <a href="slp-companion-horizon-strategy-lab.html">Strategy 1</a>
+            <span aria-current="page">Second Strategy</span>
+            <a href="slp-companion-horizon-strategy-lab-3.html">Strategy 3</a>
+          </nav>
+        </div>
+      </header>
+
+      <section class="companion-hero horizon-hero">
+        <div class="inner">
+          <p class="eyebrow">Future Shaping / Case Study 2</p>
+          <h1>Adjust Your <span class="accent">Horizon Strategy</span></h1>
+          <p class="hero-copy">You now know more than you knew in your first pass. Revise your H1, H2, and H3 investments before the story reveals the full consequence of the founder's choices.</p>
+        </div>
+      </section>
+
+      <section class="band band-cream lab-section">
+        <div class="inner">
+          <p class="section-kicker">Decision Lab Point 2</p>
+          <h2 class="section-title">What would you change now?</h2>
+          <p class="section-lede">Use your first strategy as the baseline. Keep what still makes sense and add or revise your inputs based on new information you received.</p>
+
+          <div class="horizon-lab" data-horizon-lab data-storage-key="slp-horizon-strategy-lab-2-state" data-completion-key="slp-horizon-strategy-lab-2-complete" data-baseline-key="slp-horizon-strategy-lab-state" data-use-baseline="true" data-max-items="15">
+            <section class="horizon-board-panel" aria-label="Your original board">
+              <div>
+                <p class="section-kicker">Original board</p>
+                <h2>Your first strategy, ready to revise.</h2>
+                <p>Remove anything that no longer holds, then add only the investments the new information makes more important.</p>
+              </div>
+              <div class="horizon-board" aria-label="Your editable Horizon 1, 2, and 3 strategy board">
+                <section class="horizon-column" data-horizon-column="h1">
+                  <p class="horizon-number">Horizon 1</p>
+                  <h3>Sustain and optimize the core</h3>
+                  <div class="horizon-items" data-horizon-items="h1"></div>
+                </section>
+                <section class="horizon-column" data-horizon-column="h2">
+                  <p class="horizon-number">Horizon 2</p>
+                  <h3>Extend and differentiate</h3>
+                  <div class="horizon-items" data-horizon-items="h2"></div>
+                </section>
+                <section class="horizon-column" data-horizon-column="h3">
+                  <p class="horizon-number">Horizon 3</p>
+                  <h3>Shape the future</h3>
+                  <div class="horizon-items" data-horizon-items="h3"></div>
+                </section>
+              </div>
+            </section>
+
+            <form class="horizon-builder" data-horizon-form>
+              <div>
+                <label for="investmentText">Investment or decision</label>
+                <textarea id="investmentText" name="investmentText" rows="3" placeholder="What would you keep, remove, add, or change now?"></textarea>
+              </div>
+
+              <div class="horizon-form-grid">
+                <div>
+                  <label for="investmentHorizon">Place it in</label>
+                  <select id="investmentHorizon" name="investmentHorizon">
+                    <option value="h1">Horizon 1 - Sustain and optimize the core</option>
+                    <option value="h2">Horizon 2 - Extend and differentiate</option>
+                    <option value="h3">Horizon 3 - Shape the future</option>
+                  </select>
+                </div>
+                <div>
+                  <label for="investmentPillar">Strategic pillar</label>
+                  <select id="investmentPillar" name="investmentPillar">
+                    <option value="Quality">Quality</option>
+                    <option value="Speed">Speed</option>
+                    <option value="Cost">Cost</option>
+                    <option value="Profit">Profit</option>
+                    <option value="Margins">Margins</option>
+                    <option value="Unit economics">Unit economics</option>
+                    <option value="Customer adoption">Customer adoption</option>
+                    <option value="Retention">Retention</option>
+                    <option value="Product experience">Product experience</option>
+                    <option value="Distribution">Distribution</option>
+                    <option value="Team capability">Team capability</option>
+                    <option value="Capability building">Capability building</option>
+                    <option value="Marketing">Marketing</option>
+                    <option value="Market education">Market education</option>
+                    <option value="Innovation">Innovation</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label for="investmentWhy">Why does this adjustment matter?</label>
+                <textarea id="investmentWhy" name="investmentWhy" rows="2" placeholder="One sentence is enough. What changed in your thinking?"></textarea>
+              </div>
+
+              <button class="cta" type="submit">Add to revised board</button>
+              <p class="horizon-hint" data-horizon-hint>Keep at least one investment in each horizon. Maximum: 15 investments total.</p>
+            </form>
+
+            <div class="horizon-save-panel">
+              <div>
+                <p class="section-kicker">Second strategy baseline</p>
+                <h2>Save the strategy you would back now.</h2>
+                <p>This revised board becomes the fuller strategy you will take into the next part of the case.</p>
+              </div>
+              <div class="form-actions-row">
+                <button class="cta" type="button" data-save-horizon-strategy disabled>Save my second strategy</button>
+                <button class="cta cta-secondary" type="button" data-clear-horizon-strategy>Clear revised board</button>
+              </div>
+              <p class="save-status" data-horizon-save-status></p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <script src="lesson.js"></script>
+  </body>
+</html>

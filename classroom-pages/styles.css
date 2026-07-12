@@ -470,9 +470,12 @@ a {
 .resource-panel .systeme-next-note,
 .next-case-panel .systeme-next-note {
   margin-top: 22px;
+  background: #fff;
+  color: var(--ink);
 }
 
-.systeme-next-note strong {
+.systeme-next-note strong,
+.next-case-panel .systeme-next-note strong {
   color: var(--purple);
   font-weight: 900;
 }
@@ -982,6 +985,18 @@ a {
   font-size: clamp(44px, 6vw, 74px);
   line-height: 0.92;
   text-transform: uppercase;
+}
+
+.resource-copy {
+  margin: 0;
+  color: var(--muted);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.45;
+}
+
+.resource-button-row {
+  margin-top: 24px;
 }
 
 .download-list {
