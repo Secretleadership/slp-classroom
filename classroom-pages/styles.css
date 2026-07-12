@@ -427,6 +427,21 @@ a {
   margin-bottom: 18px;
 }
 
+.lesson-hero {
+  align-items: start;
+  min-height: auto;
+  padding-top: clamp(40px, 4.8vw, 68px);
+  padding-bottom: clamp(40px, 4.8vw, 68px);
+}
+
+.lesson-hero .media-stack {
+  align-self: start;
+}
+
+.lesson-hero + .band {
+  padding-top: clamp(42px, 5vw, 72px);
+}
+
 .section-title {
   max-width: 900px;
   font-size: clamp(38px, 6vw, 74px);
@@ -747,6 +762,10 @@ a {
   color: rgba(255, 255, 255, 0.8);
 }
 
+.lens-grid-fixed {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
 .option-card strong {
   color: var(--green);
 }
@@ -1023,6 +1042,62 @@ a {
 
 .download-list a.resource-lab::after {
   content: "Decision Lab";
+}
+
+.checkpoint-steps {
+  display: grid;
+  gap: 14px;
+  margin: 22px 0 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: checkpoint-step;
+}
+
+.checkpoint-steps li {
+  counter-increment: checkpoint-step;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 14px;
+  align-items: start;
+  padding: 16px 18px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.68);
+}
+
+.checkpoint-steps li::before {
+  content: counter(checkpoint-step);
+  display: inline-grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--green);
+  color: var(--plum);
+  font-size: 15px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.checkpoint-step-copy {
+  min-width: 0;
+}
+
+.checkpoint-steps strong {
+  display: block;
+  color: var(--ink);
+  font-size: 18px;
+  line-height: 1.2;
+}
+
+.checkpoint-steps span {
+  display: block;
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.35;
 }
 
 .cta {
@@ -1390,6 +1465,722 @@ body.is-lab-locked .lesson-footer {
   display: none;
 }
 
+.horizon-hero {
+  background:
+    radial-gradient(circle at 78% 18%, rgba(169, 195, 78, 0.2), transparent 28%),
+    var(--plum);
+}
+
+.horizon-framework-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin: 34px 0;
+}
+
+.horizon-framework-card {
+  display: grid;
+  align-content: space-between;
+  min-height: 310px;
+  padding: clamp(22px, 3vw, 30px);
+  border: 1px solid rgba(244, 239, 202, 0.2);
+  border-radius: 22px;
+  background: var(--plum);
+  color: var(--cream);
+  box-shadow: 10px 10px 0 rgba(169, 195, 78, 0.28);
+}
+
+.horizon-framework-card summary {
+  display: grid;
+  min-height: 250px;
+  align-content: space-between;
+  cursor: pointer;
+  list-style: none;
+}
+
+.horizon-framework-card summary::-webkit-details-marker {
+  display: none;
+}
+
+.horizon-framework-card p {
+  margin: 0;
+  color: var(--green);
+  font-family: var(--title-font);
+  font-size: clamp(32px, 5vw, 58px);
+  line-height: 0.96;
+  text-transform: uppercase;
+}
+
+.horizon-framework-card p strong {
+  color: var(--cream);
+  font-size: 1.25em;
+}
+
+.horizon-framework-card h3 {
+  margin: 18px 0 0;
+  color: var(--cream);
+  font-size: clamp(26px, 3vw, 38px);
+  line-height: 1.02;
+}
+
+.horizon-framework-card span {
+  display: block;
+  margin-top: 22px;
+  color: var(--green-2);
+  font-weight: 900;
+  font-size: 18px;
+}
+
+.horizon-framework-card small {
+  display: block;
+  margin-top: 12px;
+  color: rgba(244, 239, 202, 0.82);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.horizon-framework-card summary small {
+  width: fit-content;
+  margin-top: 18px;
+  padding: 8px 12px;
+  border: 1px solid rgba(244, 239, 202, 0.28);
+  border-radius: 999px;
+  color: var(--cream);
+  font-size: 13px;
+  text-transform: uppercase;
+}
+
+.horizon-framework-card[open] summary small {
+  background: var(--green);
+  color: var(--plum);
+}
+
+.horizon-reveal-detail {
+  display: grid;
+  gap: 10px;
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(244, 239, 202, 0.22);
+}
+
+.horizon-reveal-detail h4 {
+  margin: 10px 0 0;
+  color: var(--green-2);
+  font-size: 15px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.horizon-reveal-detail h4:first-child {
+  margin-top: 0;
+}
+
+.horizon-reveal-detail p {
+  color: rgba(244, 239, 202, 0.88);
+  font-family: var(--body-font);
+  font-size: 15px;
+  font-weight: 800;
+  line-height: 1.35;
+  text-transform: none;
+}
+
+.horizon-two {
+  background: var(--purple);
+}
+
+.horizon-three {
+  background: var(--purple-deep);
+}
+
+.horizon-map-showcase {
+  display: grid;
+  gap: 18px;
+  margin-top: 34px;
+}
+
+.horizon-map-radio {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+}
+
+.horizon-map-tabs {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.horizon-map-tabs label {
+  display: grid;
+  gap: 6px;
+  min-height: 94px;
+  padding: 18px 20px;
+  border: 1px solid rgba(107, 42, 143, 0.2);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.72);
+  color: var(--purple);
+  cursor: pointer;
+  box-shadow: 8px 8px 0 rgba(169, 195, 78, 0.22);
+  transition: transform 160ms ease, background 160ms ease, color 160ms ease, box-shadow 160ms ease;
+}
+
+.horizon-map-tabs label:hover {
+  transform: translateY(-2px);
+}
+
+.horizon-map-tabs strong {
+  color: inherit;
+  font-family: var(--title-font);
+  font-size: clamp(28px, 4vw, 46px);
+  line-height: 0.94;
+  text-transform: uppercase;
+}
+
+.horizon-map-tabs span {
+  color: inherit;
+  font-weight: 900;
+  line-height: 1.2;
+}
+
+#horizon-map-1:checked ~ .horizon-map-tabs label[for="horizon-map-1"],
+#horizon-map-2:checked ~ .horizon-map-tabs label[for="horizon-map-2"],
+#horizon-map-3:checked ~ .horizon-map-tabs label[for="horizon-map-3"] {
+  background: var(--purple);
+  color: var(--cream);
+  box-shadow: 8px 8px 0 rgba(169, 195, 78, 0.48);
+}
+
+.horizon-map-stage {
+  position: relative;
+  padding: clamp(10px, 2vw, 18px);
+  border-radius: 24px;
+  background: var(--plum);
+  box-shadow: 12px 14px 0 rgba(169, 195, 78, 0.32);
+}
+
+.horizon-map-panel {
+  display: none;
+  margin: 0;
+}
+
+#horizon-map-1:checked ~ .horizon-map-stage .horizon-map-one,
+#horizon-map-2:checked ~ .horizon-map-stage .horizon-map-two,
+#horizon-map-3:checked ~ .horizon-map-stage .horizon-map-three {
+  display: block;
+}
+
+.horizon-map-panel img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 14px;
+}
+
+.horizon-map-panel figcaption {
+  margin-top: 14px;
+  color: var(--cream);
+  font-weight: 900;
+  line-height: 1.35;
+}
+
+.horizon-lab {
+  display: grid;
+  gap: 26px;
+}
+
+.baseline-panel {
+  display: grid;
+  gap: 22px;
+  margin: 34px 0 26px;
+  padding: clamp(20px, 3vw, 30px);
+  border: 1px solid rgba(107, 42, 143, 0.2);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: 10px 12px 0 rgba(169, 195, 78, 0.22);
+}
+
+.baseline-panel h2 {
+  margin: 0;
+  color: var(--purple);
+  font-size: clamp(30px, 4vw, 48px);
+}
+
+.baseline-panel p:not(.section-kicker) {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-weight: 800;
+}
+
+.baseline-board {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.baseline-column {
+  padding: 16px;
+  border-radius: 16px;
+  background: var(--purple-deep);
+  color: var(--cream);
+}
+
+.baseline-column:nth-child(2) {
+  background: var(--purple);
+}
+
+.baseline-column:nth-child(3) {
+  background: var(--plum);
+}
+
+.baseline-column h3 {
+  margin: 0 0 12px;
+  color: var(--green-2);
+  font-size: 18px;
+}
+
+.baseline-items {
+  display: grid;
+  gap: 8px;
+}
+
+.baseline-item {
+  padding: 10px;
+  border: 1px solid rgba(244, 239, 202, 0.18);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(244, 239, 202, 0.9);
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.baseline-item.is-empty {
+  color: rgba(244, 239, 202, 0.55);
+}
+
+.horizon-builder,
+.horizon-save-panel {
+  padding: clamp(20px, 3vw, 30px);
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  background: var(--white);
+  box-shadow: 12px 14px 0 rgba(107, 42, 143, 0.2);
+}
+
+.horizon-builder {
+  display: grid;
+  gap: 18px;
+}
+
+.horizon-builder label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--purple);
+  font-weight: 900;
+}
+
+.horizon-builder textarea,
+.horizon-builder select {
+  width: 100%;
+  border: 1px solid rgba(107, 42, 143, 0.24);
+  border-radius: 14px;
+  background: var(--cream-soft);
+  color: var(--ink);
+  font-family: var(--body-font);
+  font-size: 17px;
+}
+
+.horizon-builder textarea {
+  resize: vertical;
+  padding: 16px;
+}
+
+.horizon-builder select {
+  min-height: 52px;
+  padding: 0 14px;
+}
+
+.horizon-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.horizon-hint {
+  margin: 0;
+  color: var(--muted);
+  font-weight: 800;
+}
+
+.horizon-board {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.horizon-column {
+  min-height: 360px;
+  padding: clamp(18px, 3vw, 24px);
+  border-radius: 22px;
+  background: var(--purple);
+  color: var(--cream);
+  box-shadow: 10px 10px 0 rgba(169, 195, 78, 0.34);
+}
+
+.horizon-column:nth-child(1) {
+  background: var(--purple-deep);
+}
+
+.horizon-column:nth-child(3) {
+  background: var(--plum);
+}
+
+.horizon-number {
+  margin: 0 0 12px;
+  color: var(--green-2);
+  font-family: var(--title-font);
+  font-size: 36px;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.horizon-column h3 {
+  margin: 0 0 18px;
+  color: var(--cream);
+  font-size: 22px;
+}
+
+.horizon-items {
+  display: grid;
+  gap: 12px;
+}
+
+.horizon-investment {
+  padding: 14px;
+  border: 1px solid rgba(244, 239, 202, 0.22);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.horizon-investment strong {
+  display: block;
+  color: var(--cream);
+  font-size: 17px;
+  line-height: 1.25;
+}
+
+.horizon-investment span {
+  display: inline-flex;
+  margin: 12px 0 8px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: var(--green);
+  color: var(--plum);
+  font-size: 12px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.horizon-investment p {
+  margin: 0;
+  color: rgba(244, 239, 202, 0.84);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.horizon-investment-detail {
+  margin-top: 8px;
+}
+
+.horizon-investment-detail summary {
+  width: fit-content;
+  cursor: pointer;
+  color: var(--green-2);
+  font-weight: 900;
+  font-size: 14px;
+  list-style: none;
+}
+
+.horizon-investment-detail summary::-webkit-details-marker {
+  display: none;
+}
+
+.horizon-investment-detail summary::after {
+  content: " +";
+}
+
+.horizon-investment-detail[open] summary::after {
+  content: " -";
+}
+
+.horizon-investment-detail p {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(244, 239, 202, 0.2);
+}
+
+.horizon-investment button {
+  margin-top: 12px;
+  border: 0;
+  background: transparent;
+  color: var(--green-2);
+  cursor: pointer;
+  font: inherit;
+  font-weight: 900;
+}
+
+.horizon-save-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 20px;
+  align-items: center;
+}
+
+.horizon-save-panel h2 {
+  margin: 0;
+  color: var(--purple);
+  font-size: clamp(30px, 4vw, 46px);
+}
+
+.horizon-save-panel p {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-weight: 800;
+}
+
+.horizon-save-panel .save-status {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: var(--purple);
+  font-weight: 900;
+}
+
+.tradeoff-lab {
+  display: grid;
+  gap: 24px;
+}
+
+.tradeoff-budget {
+  position: sticky;
+  top: 82px;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: auto minmax(180px, 1fr) minmax(0, 1.2fr);
+  gap: 18px;
+  align-items: center;
+  padding: clamp(18px, 3vw, 24px);
+  border-radius: 24px;
+  background: var(--plum);
+  color: var(--cream);
+  box-shadow: 10px 10px 0 rgba(169, 195, 78, 0.34);
+}
+
+.tradeoff-budget strong {
+  display: block;
+  color: var(--green-2);
+  font-family: var(--title-font);
+  font-size: clamp(56px, 8vw, 96px);
+  line-height: 0.9;
+}
+
+.tradeoff-budget span {
+  color: var(--cream);
+  font-weight: 900;
+}
+
+.tradeoff-budget p:last-child {
+  margin: 0;
+  color: rgba(244, 239, 202, 0.8);
+  font-weight: 800;
+}
+
+.budget-meter {
+  overflow: hidden;
+  height: 18px;
+  border-radius: 999px;
+  background: rgba(244, 239, 202, 0.18);
+}
+
+.budget-meter span {
+  display: block;
+  width: 0;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--green);
+  transition: width 180ms ease;
+}
+
+.tradeoff-board {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.tradeoff-horizon-column {
+  display: grid;
+  align-content: start;
+  gap: 14px;
+  padding: clamp(16px, 2.5vw, 22px);
+  border-radius: 24px;
+  background: var(--plum);
+  color: var(--cream);
+  box-shadow: 8px 10px 0 rgba(166, 195, 74, 0.3);
+}
+
+.tradeoff-horizon-column > h3 {
+  margin: -6px 0 4px;
+  color: var(--cream);
+  font-size: clamp(18px, 2.2vw, 28px);
+}
+
+.tradeoff-horizon-items {
+  display: grid;
+  gap: 14px;
+}
+
+.tradeoff-empty-card {
+  padding: 16px;
+  border: 1px dashed rgba(244, 239, 202, 0.45);
+  border-radius: 18px;
+  color: rgba(244, 239, 202, 0.76);
+  font-weight: 900;
+}
+
+.tradeoff-card {
+  display: grid;
+  gap: 16px;
+  padding: clamp(16px, 2.4vw, 20px);
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: var(--white);
+  box-shadow: 6px 8px 0 rgba(107, 42, 143, 0.16);
+}
+
+.tradeoff-card.is-eliminated {
+  background: rgba(255, 255, 255, 0.62);
+}
+
+.tradeoff-card-top {
+  display: grid;
+  gap: 14px;
+  align-items: start;
+}
+
+.tradeoff-card h3 {
+  margin: 0;
+  color: var(--purple);
+  font-size: clamp(17px, 2vw, 24px);
+  line-height: 1.18;
+}
+
+.tradeoff-add-form {
+  border-color: rgba(166, 195, 74, 0.62);
+  box-shadow: 10px 10px 0 rgba(166, 195, 74, 0.28);
+}
+
+.tradeoff-add-form h2 {
+  margin: 0;
+  color: var(--purple);
+  font-size: clamp(30px, 4vw, 44px);
+}
+
+.tradeoff-add-form p:not(.section-kicker) {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-weight: 800;
+}
+
+.tradeoff-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.tradeoff-meta span {
+  padding: 5px 9px;
+  border-radius: 999px;
+  background: var(--cream);
+  color: var(--purple);
+  font-size: 10px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.tradeoff-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.tradeoff-controls select {
+  min-height: 42px;
+  border: 1px solid rgba(107, 42, 143, 0.24);
+  border-radius: 999px;
+  background: var(--cream-soft);
+  color: var(--purple);
+  font: inherit;
+  font-weight: 900;
+  padding: 0 12px;
+}
+
+.tradeoff-toggle {
+  min-height: 38px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--green);
+  color: var(--plum);
+  cursor: pointer;
+  font: inherit;
+  font-weight: 900;
+  font-size: 13px;
+  padding: 0 14px;
+}
+
+.tradeoff-card.is-eliminated .tradeoff-toggle {
+  background: var(--purple);
+  color: var(--cream);
+}
+
+.tradeoff-reflection {
+  display: none;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+
+.tradeoff-card.is-eliminated .tradeoff-reflection {
+  display: grid;
+}
+
+.tradeoff-reflection label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--purple);
+  font-weight: 900;
+}
+
+.tradeoff-card.is-eliminated h3,
+.tradeoff-card.is-eliminated .tradeoff-reflection label {
+  color: #111111;
+}
+
+.tradeoff-reflection textarea {
+  width: 100%;
+  min-height: 96px;
+  padding: 12px;
+  border: 1px solid rgba(107, 42, 143, 0.24);
+  border-radius: 14px;
+  background: var(--cream-soft);
+  color: var(--ink);
+  font: inherit;
+}
+
 @media (max-width: 900px) {
   .topbar-inner {
     align-items: flex-start;
@@ -1398,7 +2189,17 @@ body.is-lab-locked .lesson-footer {
 
   .hero,
   .two-col,
-  .result-grid {
+  .result-grid,
+  .horizon-framework-grid,
+  .horizon-map-tabs,
+  .horizon-board,
+  .horizon-save-panel,
+  .baseline-board,
+  .tradeoff-board {
+    grid-template-columns: 1fr;
+  }
+
+  .horizon-form-grid {
     grid-template-columns: 1fr;
   }
 
@@ -1411,6 +2212,10 @@ body.is-lab-locked .lesson-footer {
   .lens-grid,
   .option-grid {
     grid-template-columns: 1fr;
+  }
+
+  .lens-grid-fixed {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .carousel {
@@ -1502,6 +2307,10 @@ body.is-lab-locked .lesson-footer {
     padding: 48px 0;
   }
 
+  .lens-grid-fixed {
+    grid-template-columns: 1fr;
+  }
+
   .inner {
     width: min(100% - 28px, var(--max));
   }
@@ -1588,6 +2397,16 @@ body.is-lab-locked .lesson-footer {
   min-height: auto;
   padding-top: clamp(72px, 7vw, 104px);
   padding-bottom: clamp(34px, 6vw, 66px);
+}
+
+.is-embed .lesson-hero {
+  align-items: start;
+  padding-top: clamp(34px, 4.5vw, 58px);
+  padding-bottom: clamp(34px, 4.5vw, 58px);
+}
+
+.is-embed .lesson-hero + .band {
+  padding-top: clamp(36px, 4.5vw, 62px);
 }
 
 .is-embed .hero::after {
