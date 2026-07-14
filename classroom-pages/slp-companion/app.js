@@ -1,3 +1,15 @@
+if ("scrollRestoration" in window.history) {
+  window.history.scrollRestoration = "manual";
+}
+
+function landAtPageTop() {
+  if (window.location.hash) return;
+  window.setTimeout(() => window.scrollTo(0, 0), 0);
+}
+
+landAtPageTop();
+window.addEventListener("pageshow", landAtPageTop);
+
 const state = {
   profile: {},
   scenarioChoice: "",

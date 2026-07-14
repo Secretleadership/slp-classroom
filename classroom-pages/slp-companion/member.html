@@ -9,7 +9,7 @@
   </head>
   <body>
     <main id="app" class="app-shell">
-      <section class="panel hero-panel">
+      <section class="panel hero-panel member-hero-panel">
         <div class="brand-row">
           <img
             class="brand-logo"
@@ -25,11 +25,15 @@
         </p>
         <div class="note">
           <strong>Member area.</strong>
-          <span>Use Systeme.io as the paid entry point, then move between the classes and Companion tools from here.</span>
+          <span>Use Systeme.io for the classroom flow. Open Companion tools from the class checkpoint prompts so your progress stays aligned.</span>
         </div>
-        <a class="secondary-action link-action member-back-link" href="../class-3-results.html">
-          Back to Classes
-        </a>
+        <button
+          class="secondary-action link-action member-back-link"
+          type="button"
+          onclick="window.history.back()"
+        >
+          Secret Leadership Playbook Vol. 1
+        </button>
 
         <div class="paid-preview-card member-library" aria-label="SLP Companion">
           <div class="paid-preview-heading">
@@ -37,20 +41,19 @@
               <p class="eyebrow">Volume 1</p>
               <h2>Future Shaping</h2>
             </div>
-            <span class="access-chip">Active</span>
-          </div>
-          <p>
-            Use the classroom flow for case checkpoints, then return here for
-            worksheets, flashcards, saved actions, and reusable practice tools.
+          <span class="access-chip">Active</span>
+        </div>
+        <p>
+            Use the classroom checkpoints for guided Decision Lab moments, then
+            return here for worksheets, flashcards, saved actions, and reusable
+            practice tools.
           </p>
           <div class="theme-library" aria-label="Future Shaping tools">
             <article class="theme-tile">
               <span>Structured class flow</span>
               <h3>Class Checkpoint - Decision Lab</h3>
-              <p>Complete this inside the class sequence so your progress stays aligned with the Systems.io course flow.</p>
-              <a class="secondary-action link-action" href="../index.html">
-                Return to Classes
-              </a>
+              <p>Access this through the relevant Systeme.io class checkpoint so your progress stays aligned with the course flow.</p>
+              <span class="secondary-action locked-action">Return to Systeme.io classes</span>
             </article>
             <article class="theme-tile">
               <span>Companion resources</span>
@@ -64,5 +67,20 @@
         </div>
       </section>
     </main>
+    <script>
+      if ("scrollRestoration" in window.history) {
+        window.history.scrollRestoration = "manual";
+      }
+
+      function landAtPageTop() {
+        if (window.location.hash) return;
+        window.setTimeout(function () {
+          window.scrollTo(0, 0);
+        }, 0);
+      }
+
+      landAtPageTop();
+      window.addEventListener("pageshow", landAtPageTop);
+    </script>
   </body>
 </html>

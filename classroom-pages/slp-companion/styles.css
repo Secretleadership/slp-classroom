@@ -95,6 +95,25 @@ textarea {
     url("assets/janine-hero-web.jpg") 0% 42% / cover;
 }
 
+.member-hero-panel {
+  background-color: #180023;
+  background-image:
+    linear-gradient(90deg, rgba(24, 0, 35, 0.99) 0%, rgba(24, 0, 35, 0.96) 47%, rgba(107, 42, 143, 0.76) 64%, rgba(24, 0, 35, 0.28) 100%),
+    url("assets/janine-hero-web.jpg");
+  background-repeat: no-repeat;
+  background-size: cover, auto 100%;
+  background-position: center, left clamp(260px, 28vw, 430px) center;
+}
+
+.member-hero-panel h1 {
+  max-width: 650px;
+  font-size: clamp(3.1rem, 7.2vw, 6.25rem);
+}
+
+.member-hero-panel .lede {
+  max-width: 680px;
+}
+
 .hero-panel .brand-row,
 .hero-panel .eyebrow,
 .hero-panel h1,
@@ -810,6 +829,20 @@ textarea {
     background:
       linear-gradient(180deg, rgba(17, 10, 10, 0.88) 0%, rgba(107, 42, 143, 0.72) 56%, rgba(17, 10, 10, 0.38) 100%),
       url("assets/janine-hero-web.jpg") 28% 18% / cover;
+  }
+
+  .member-hero-panel {
+    background-color: #180023;
+    background-image:
+      linear-gradient(180deg, rgba(24, 0, 35, 0.96) 0%, rgba(24, 0, 35, 0.88) 56%, rgba(107, 42, 143, 0.72) 100%),
+      url("assets/janine-hero-web.jpg");
+    background-size: cover, auto 78%;
+    background-position: center, right -86px top 24px;
+  }
+
+  .member-hero-panel h1 {
+    max-width: 100%;
+    font-size: clamp(3rem, 15vw, 5rem);
   }
 
   .brand-logo {
