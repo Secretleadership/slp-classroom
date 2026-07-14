@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SLP Companion</title>
+    <link rel="preload" as="image" href="assets/janine-hero-web.jpg" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main id="app" class="app-shell">
+      <section class="panel hero-panel member-hero-panel">
+        <div class="brand-row">
+          <img
+            class="brand-logo"
+            src="assets/slp-logo-core.png"
+            alt="The Secret Leadership Playbook"
+          />
+        </div>
+        <p class="eyebrow">SLP member access</p>
+        <h1><span class="headline-nowrap">SLP Companion</span></h1>
+        <p class="lede">
+          Use the SLP Companion to turn each classroom story into guided
+          reflection, worksheets, flashcards, and leadership practice.
+        </p>
+        <div class="note">
+          <strong>Member area.</strong>
+          <span>Use Systeme.io for the classroom flow. Open Companion tools from the class checkpoint prompts so your progress stays aligned.</span>
+        </div>
+        <button
+          class="secondary-action link-action member-back-link"
+          type="button"
+          onclick="window.history.back()"
+        >
+          Secret Leadership Playbook Vol. 1
+        </button>
+
+        <div class="paid-preview-card member-library" aria-label="SLP Companion">
+          <div class="paid-preview-heading">
+            <div>
+              <p class="eyebrow">Volume 1</p>
+              <h2>Future Shaping</h2>
+            </div>
+          <span class="access-chip">Active</span>
+        </div>
+        <p>
+            Use the classroom checkpoints for guided Decision Lab moments, then
+            return here for worksheets, flashcards, saved actions, and reusable
+            practice tools.
+          </p>
+          <div class="theme-library" aria-label="Future Shaping tools">
+            <article class="theme-tile">
+              <span>Structured class flow</span>
+              <h3>Class Checkpoint - Decision Lab</h3>
+              <p>Access this through the relevant Systeme.io class checkpoint so your progress stays aligned with the course flow.</p>
+              <span class="secondary-action locked-action">Return to Systeme.io classes</span>
+            </article>
+            <article class="theme-tile">
+              <span>Companion resources</span>
+              <h3>Apply Playbook</h3>
+              <p>Open the Future Shaping worksheets, flashcards, and action commitments.</p>
+              <a class="secondary-action link-action" href="apply-playbook.html">
+                Open Apply Playbook
+              </a>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+    <script>
+      if ("scrollRestoration" in window.history) {
+        window.history.scrollRestoration = "manual";
+      }
+
+      function landAtPageTop() {
+        if (window.location.hash) return;
+        window.setTimeout(function () {
+          window.scrollTo(0, 0);
+        }, 0);
+      }
+
+      landAtPageTop();
+      window.addEventListener("pageshow", landAtPageTop);
+    </script>
+  </body>
+</html>

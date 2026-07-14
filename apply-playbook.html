@@ -1,0 +1,552 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Apply Playbook | SLP Companion</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="apply-playbook.css" />
+  </head>
+  <body class="companion-body">
+    <main class="companion-shell">
+      <section class="companion-hero">
+        <div>
+          <img
+            class="companion-logo"
+            src="assets/slp-logo-core.png"
+            alt="The Secret Leadership Playbook"
+          />
+          <p class="eyebrow">SLP Companion</p>
+          <h1>Apply Playbook</h1>
+          <p class="tagline">Worksheets, flashcards, and action commitments for each SLP theme.</p>
+        </div>
+        <div class="companion-status-card" data-profile-card>
+          <p class="status-label">Companion profile</p>
+          <strong data-profile-name>Not signed in</strong>
+          <span data-profile-email>Enter your email to save your worksheet responses on this device.</span>
+        </div>
+      </section>
+
+      <section class="panel companion-panel" data-view="login">
+        <div class="step-header">
+          <p class="eyebrow">Step 1</p>
+          <h2>Open Apply Playbook</h2>
+          <p>
+            Enter your details to open Apply Playbook. This preview version
+            saves your worksheet responses on this device while we build the
+            full login version.
+          </p>
+        </div>
+        <form id="companion-login-form" class="form-grid">
+          <label>
+            First name
+            <input name="firstName" required autocomplete="given-name" />
+          </label>
+          <label>
+            Last name
+            <input name="lastName" required autocomplete="family-name" />
+          </label>
+          <label class="wide">
+            Email address
+            <input name="email" type="email" required autocomplete="email" />
+          </label>
+          <button class="primary-action wide" type="submit">Open Apply Playbook</button>
+        </form>
+      </section>
+
+      <section class="panel companion-panel hidden" data-view="dashboard">
+        <div class="companion-topbar">
+          <div>
+            <p class="eyebrow">SLP Companion</p>
+            <h2>Apply Playbook</h2>
+          </div>
+          <button class="secondary-action" type="button" id="switch-profile">Switch Profile</button>
+        </div>
+
+        <section class="diagnostic-start">
+          <div>
+            <p class="eyebrow">Back to Companion</p>
+            <h3>SLP Companion</h3>
+          </div>
+          <a class="primary-action diagnostic-link" href="member.html">Back to Companion</a>
+        </section>
+
+        <div class="volume-grid">
+          <article class="volume-card available" data-open-volume="volume-1">
+            <span>Available</span>
+            <h3>Future Shaping</h3>
+            <p>Worksheets and flashcards for Control, Influence, and No Control.</p>
+            <strong>Open tools</strong>
+          </article>
+          <article class="volume-card locked">
+            <span>Coming soon</span>
+            <h3>Managing Up and Down</h3>
+            <p>Worksheets and flashcards will unlock when this theme is ready.</p>
+            <strong>Locked</strong>
+          </article>
+        </div>
+
+        <section class="action-dashboard">
+          <h3>Actions Committed by Members</h3>
+          <div data-action-list class="action-list"></div>
+          <button class="primary-action dormant-member-action" type="button" disabled>
+            Join SLP
+          </button>
+        </section>
+      </section>
+
+      <section class="panel companion-panel hidden" data-view="volume">
+        <div class="companion-topbar">
+          <div>
+            <p class="eyebrow">Apply Playbook</p>
+            <h2>Future Shaping</h2>
+          </div>
+          <button class="secondary-action" type="button" id="back-to-map">Back to Map</button>
+        </div>
+
+        <div class="volume-intro">
+          <p>
+            Future Shaping helps you separate what can be controlled, what can
+            be influenced, and what must be accepted without becoming an excuse
+            for inaction.
+          </p>
+        </div>
+
+        <div class="companion-grid single-tool-grid">
+          <article class="worksheet-card scenario-card build-scenario-entry" data-open-scenario-menu>
+            <span>Scenario Builder</span>
+            <h3>Build Your Scenario</h3>
+            <p>
+              Choose the Future Shaping model that fits the leadership situation
+              you are trying to work through.
+            </p>
+            <strong>Open scenario models</strong>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel companion-panel hidden" data-view="scenario-choice">
+        <div class="companion-topbar">
+          <div>
+            <p class="eyebrow">Future Shaping / Apply Playbook</p>
+            <h2>Build Your Scenario</h2>
+          </div>
+          <button class="secondary-action" type="button" id="back-from-scenario-choice">Back to Future Shaping</button>
+        </div>
+
+        <div class="volume-intro">
+          <p>
+            Start with the model that matches the question in front of you:
+            separate what belongs in control, influence, and no control, or map
+            your strategic tension across three horizons.
+          </p>
+        </div>
+
+        <div class="companion-grid scenario-choice-grid">
+          <article class="worksheet-card scenario-card" data-open-scenario>
+            <span>CINC Model</span>
+            <h3>Control, Influence, No Control</h3>
+            <p>
+              Build your own scenario by sorting the moving parts into what you
+              control, what you can influence, and what you must stop carrying.
+            </p>
+            <strong data-scenario-status>Not started</strong>
+          </article>
+          <article class="worksheet-card horizon-card" data-open-horizon>
+            <span>3 Horizons</span>
+            <h3>3 Horizon Tension Map</h3>
+            <p>
+              Build your own Horizon 1, 2, and 3 strategy with timing, budget,
+              investment choices, and trade-offs.
+            </p>
+            <strong data-horizon-status>Not started</strong>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel companion-panel hidden" data-view="scenario">
+        <div class="companion-topbar">
+          <div>
+            <p class="eyebrow">Future Shaping / Scenario Tool</p>
+            <h2>Build My Own Scenario</h2>
+          </div>
+          <button class="secondary-action" type="button" id="back-from-scenario">Back to Scenario Models</button>
+        </div>
+
+        <div class="scenario-builder">
+          <section class="scenario-setup">
+            <label>
+              Name the leadership situation
+              <input
+                name="scenarioTitle"
+                data-scenario-title
+                placeholder="Example: Deciding whether to restructure the regional team"
+              />
+            </label>
+            <label>
+              Add one moving part
+              <textarea
+                name="scenarioCardInput"
+                data-scenario-card-input
+                rows="4"
+                placeholder="Add one fact, pressure, signal, risk, stakeholder concern, or constraint."
+              ></textarea>
+            </label>
+            <button class="primary-action" type="button" data-add-scenario-card>Add flashcard</button>
+          </section>
+
+          <section class="scenario-flashcard-panel" aria-live="polite">
+            <div class="scenario-progress">
+              <span><span data-scenario-current>0</span> / <span data-scenario-total>0</span></span>
+              <small data-scenario-message>Add your first moving part to begin.</small>
+            </div>
+            <article class="scenario-flashcard" data-scenario-active-card>
+              <p>Your scenario flashcards will appear here one at a time.</p>
+            </article>
+            <div class="scenario-sort-actions">
+              <button type="button" data-scenario-sort="control">Control</button>
+              <button type="button" data-scenario-sort="influence">Influence</button>
+              <button type="button" data-scenario-sort="no-control">No Control</button>
+            </div>
+            <div class="scenario-card-nav">
+              <button type="button" data-scenario-prev>Previous</button>
+              <button type="button" data-scenario-next>Next</button>
+            </div>
+          </section>
+
+          <section class="scenario-buckets" aria-label="My scenario buckets">
+            <article>
+              <h3>Control</h3>
+              <p>Direct decisions, standards, trade-offs, funding, focus.</p>
+              <div data-scenario-bucket="control"></div>
+            </article>
+            <article>
+              <h3>Influence</h3>
+              <p>People, trust, timing, messaging, alignment, partnerships.</p>
+              <div data-scenario-bucket="influence"></div>
+            </article>
+            <article>
+              <h3>No Control</h3>
+              <p>External forces to accept without turning them into excuses.</p>
+              <div data-scenario-bucket="no-control"></div>
+            </article>
+          </section>
+
+          <section class="scenario-insight-panel">
+            <div>
+              <p class="eyebrow">Insight</p>
+              <h3>What is clearer now?</h3>
+              <p>
+                After sorting the moving parts, capture what you can control,
+                what you can influence, and what you need to stop carrying as
+                if it belongs to you.
+              </p>
+            </div>
+            <label>
+              My insight
+              <textarea
+                name="scenarioInsight"
+                data-scenario-insight
+                rows="5"
+                placeholder="What did the buckets reveal about this situation?"
+              ></textarea>
+            </label>
+            <button class="mini-record companion-record" type="button" data-target="scenarioInsight">
+              Record insight
+            </button>
+
+            <div class="scenario-action-entry">
+              <p class="action-number scenario-action-label">Take action</p>
+              <label>
+                What leadership action will you take?
+                <textarea
+                  name="scenarioActionText"
+                  data-scenario-action-text
+                  rows="3"
+                  placeholder="Write one practical action."
+                ></textarea>
+              </label>
+              <div class="form-grid">
+                <label>
+                  By when?
+                  <input name="scenarioActionDueDate" data-scenario-action-due type="date" />
+                </label>
+                <label>
+                  Who needs to be involved?
+                  <input name="scenarioActionOwner" data-scenario-action-owner />
+                </label>
+              </div>
+              <button class="primary-action" type="button" data-save-scenario-action>
+                Save action to dashboard
+              </button>
+            </div>
+          </section>
+
+          <section class="scenario-actions">
+            <button class="primary-action" type="button" data-save-scenario>Save on this device</button>
+            <button class="secondary-action" type="button" data-download-scenario>Download my report</button>
+            <a class="secondary-action" href="#" data-email-scenario>Email my report to myself</a>
+            <p data-scenario-save-status></p>
+          </section>
+        </div>
+      </section>
+
+      <section class="panel companion-panel hidden" data-view="horizon-tool">
+        <div class="companion-topbar">
+          <div>
+            <p class="eyebrow">Future Shaping / Horizon Map</p>
+            <h2>3 Horizon Tension Map</h2>
+          </div>
+          <button class="secondary-action" type="button" id="back-from-horizon">Back to Scenario Models</button>
+        </div>
+
+        <div class="horizon-tool">
+          <section class="horizon-tool-hero">
+            <p class="eyebrow">Apply the Playbook</p>
+            <h3>Build your own horizon strategy</h3>
+            <p>
+              Use this tool with your own company, team, or leadership story.
+              Map what must be protected now, what should be extended next,
+              and what future engine needs to be built over time.
+            </p>
+          </section>
+
+          <section class="horizon-setup-grid">
+            <label>
+              Name the leadership situation
+              <input
+                name="horizonTitle"
+                data-horizon-title
+                placeholder="Example: Building the next stage of our leadership offer"
+              />
+            </label>
+            <label>
+              Who should be in the room?
+              <input
+                name="horizonTeam"
+                data-horizon-team
+                placeholder="Example: Commercial lead, operations, product, finance"
+              />
+            </label>
+            <label>
+              Budget mode
+              <select data-horizon-budget-mode>
+                <option value="credits">Credits</option>
+                <option value="money">Money</option>
+              </select>
+            </label>
+            <label>
+              Currency
+              <select data-horizon-currency>
+                <option value="credits">Credits</option>
+                <option value="ZAR">ZAR</option>
+                <option value="USD">USD</option>
+                <option value="EUR">EUR</option>
+                <option value="GBP">GBP</option>
+                <option value="Other">Other</option>
+              </select>
+            </label>
+            <label>
+              Total budget
+              <input name="horizonBudget" data-horizon-budget type="number" min="1" step="1" value="100" />
+            </label>
+          </section>
+
+          <section class="horizon-timeframe-grid">
+            <label class="horizon-period-card">
+              Horizon 1 timeframe
+              <input data-horizon-timeframe="h1" value="1-3 years" />
+              Horizon 1 budget
+              <input data-horizon-period-budget="h1" type="number" min="0" step="1" value="0" />
+            </label>
+            <label class="horizon-period-card">
+              Horizon 2 timeframe
+              <input data-horizon-timeframe="h2" value="3-5 years" />
+              Horizon 2 budget
+              <input data-horizon-period-budget="h2" type="number" min="0" step="1" value="0" />
+            </label>
+            <label class="horizon-period-card">
+              Horizon 3 timeframe
+              <input data-horizon-timeframe="h3" value="5+ years" />
+              Horizon 3 budget
+              <input data-horizon-period-budget="h3" type="number" min="0" step="1" value="0" />
+            </label>
+          </section>
+
+          <section class="horizon-add-panel">
+            <div>
+              <p class="eyebrow">Add an investment</p>
+              <h3>Place the move where it belongs</h3>
+            </div>
+            <div class="horizon-add-grid">
+              <label>
+                Investment or strategic move
+                <textarea
+                  data-horizon-investment-text
+                  rows="3"
+                  placeholder="Example: Build a retention engine before scaling acquisition"
+                ></textarea>
+              </label>
+              <label>
+                Horizon
+                <select data-horizon-investment-horizon>
+                  <option value="h1">Horizon 1 - sustain and optimize the core</option>
+                  <option value="h2">Horizon 2 - extend and differentiate</option>
+                  <option value="h3">Horizon 3 - shape the future</option>
+                </select>
+              </label>
+              <label>
+                Strategic pillar
+                <select data-horizon-investment-pillar>
+                  <option>Quality</option>
+                  <option>Cost</option>
+                  <option>Customer adoption</option>
+                  <option>Retention</option>
+                  <option>Market</option>
+                  <option>Marketing</option>
+                  <option>Capability</option>
+                  <option>Innovation</option>
+                  <option>Team capability</option>
+                  <option>Outsourcing</option>
+                  <option>Other</option>
+                </select>
+              </label>
+              <label>
+                Allocation
+                <input data-horizon-investment-amount type="number" min="0" step="1" value="10" />
+              </label>
+            </div>
+            <button class="primary-action" type="button" data-add-horizon-investment>Add to map</button>
+          </section>
+
+          <section class="horizon-budget-summary">
+            <div>
+              <span>Total budget</span>
+              <strong data-horizon-total>100 credits</strong>
+            </div>
+            <div>
+              <span>Remaining</span>
+              <strong data-horizon-remaining>100 credits</strong>
+            </div>
+            <p data-horizon-budget-status>Start adding investments to see your budget tension.</p>
+          </section>
+
+          <section class="horizon-board" data-horizon-board aria-label="3 Horizon strategy board"></section>
+
+          <section class="horizon-action-panel">
+            <div>
+              <p class="eyebrow">Move to action</p>
+              <h3>Capture the leadership move this map points to</h3>
+            </div>
+            <div class="scenario-action-entry">
+              <p class="action-number scenario-action-label">Take action</p>
+              <label>
+                What leadership action will you take?
+                <textarea data-horizon-action-text rows="3" placeholder="Write one practical action."></textarea>
+              </label>
+              <div class="form-grid">
+                <label>
+                  By when?
+                  <input data-horizon-action-due type="date" />
+                </label>
+                <label>
+                  Who needs to be involved?
+                  <input data-horizon-action-owner />
+                </label>
+              </div>
+            </div>
+          </section>
+
+          <section class="scenario-actions horizon-actions">
+            <button class="primary-action" type="button" data-save-horizon>Save on this device</button>
+            <button class="secondary-action" type="button" data-download-horizon>Download my report</button>
+            <a class="secondary-action" href="#" data-email-horizon>Email my report to myself</a>
+            <p data-horizon-save-status></p>
+          </section>
+        </div>
+      </section>
+
+      <section class="panel companion-panel hidden" data-view="worksheet">
+        <div class="companion-topbar">
+          <div>
+            <p class="eyebrow" data-worksheet-volume>Volume 1</p>
+            <h2 data-worksheet-title>Worksheet</h2>
+          </div>
+          <button class="secondary-action" type="button" id="back-to-volume">Back to Volume 1</button>
+        </div>
+
+        <form id="worksheet-form" class="reflection-stack">
+          <p class="voice-consent">
+            Prefer speaking? Use the voice button to capture your answer, then edit the text before saving.
+          </p>
+          <div data-question-fields></div>
+
+          <div class="action-commitment">
+            <h3>Turn this into action</h3>
+            <p>
+              Capture one practical move from this worksheet. Save it to your
+              dashboard, then use the same fields again if another action
+              becomes clear.
+            </p>
+            <div class="action-row">
+              <p class="action-number">Take action</p>
+              <label>
+                What leadership action will you take?
+                <textarea name="actionText_1" required minlength="10"></textarea>
+              </label>
+              <div class="form-grid">
+                <label>
+                  By when?
+                  <input name="actionDueDate_1" type="date" required />
+                </label>
+                <label>
+                  Who needs to be involved?
+                  <input name="actionOwner_1" required />
+                </label>
+              </div>
+            </div>
+            <p class="calendar-note">
+              Google Calendar and Tasks sync will come in the full Companion.
+              In this Lite version, saved actions can be downloaded as calendar
+              reminder files from your dashboard.
+            </p>
+          </div>
+
+          <button class="primary-action" type="submit">Save Worksheet</button>
+        </form>
+      </section>
+
+      <section class="panel companion-panel hidden" data-view="placeholder">
+        <div class="companion-topbar">
+          <div>
+            <p class="eyebrow">Volume 1 / In Design</p>
+            <h2>Managing Up and Down</h2>
+          </div>
+          <button class="secondary-action" type="button" id="back-from-placeholder">Back to Volume 1</button>
+        </div>
+
+        <div class="placeholder-layout">
+          <section class="placeholder-card">
+            <h3>What will live here</h3>
+            <ul class="result-bullets">
+              <li>Managing upward without burning relationship capital</li>
+              <li>Reading team signals after decisions are made above you</li>
+              <li>Influencing clarity, trust, and ownership downward</li>
+              <li>Turning reflection into a practical leadership action</li>
+            </ul>
+          </section>
+          <section class="placeholder-card">
+            <h3>Worksheet status</h3>
+            <p>
+              This section is ready structurally, but the final worksheet
+              questions will be added once the Managing Up and Down worksheet
+              design is complete.
+            </p>
+          </section>
+        </div>
+      </section>
+    </main>
+
+    <script src="apply-playbook.js?v=20260626-apply-playbook"></script>
+  </body>
+</html>
