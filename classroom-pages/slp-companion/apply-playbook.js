@@ -1,14 +1,28 @@
+if ("scrollRestoration" in window.history) {
+  window.history.scrollRestoration = "manual";
+}
+
+function landAtPageTop() {
+  if (window.location.hash) return;
+  window.setTimeout(() => window.scrollTo(0, 0), 0);
+}
+
+landAtPageTop();
+window.addEventListener("pageshow", landAtPageTop);
+
 const companionState = {
   profile: null,
   activeWorksheet: null,
   scenarioCards: [],
   scenarioIndex: 0,
+  horizonMap: null,
   recognition: null,
   recorderTarget: null
 };
 
 const companionAccess = new URLSearchParams(window.location.search).get("access");
 const isPreviewMode = companionAccess === "preview";
+const requestedTool = new URLSearchParams(window.location.search).get("tool");
 
 const worksheets = {
   "managing-up": {
@@ -192,20 +206,32 @@ function savedProfileKey() {
   return "slp-companion:active-profile";
 }
 
+function ensureStoreShape(store) {
+  const shaped = store || {};
+  shaped.profile = shaped.profile || companionState.profile;
+  shaped.worksheets = shaped.worksheets || {};
+  shaped.scenarios = shaped.scenarios || {};
+  shaped.horizonMaps = shaped.horizonMaps || {};
+  return shaped;
+}
+
 function getStore() {
   if (!companionState.profile?.email) return null;
   const raw = localStorage.getItem(profileKey(companionState.profile.email));
-  return raw
-    ? JSON.parse(raw)
-    : {
-        profile: companionState.profile,
-        worksheets: {},
-        scenarios: {}
-      };
+  return ensureStoreShape(
+    raw
+      ? JSON.parse(raw)
+      : {
+          profile: companionState.profile,
+          worksheets: {},
+          scenarios: {},
+          horizonMaps: {}
+        }
+  );
 }
 
 function saveStore(store) {
-  localStorage.setItem(profileKey(store.profile.email), JSON.stringify(store));
+  localStorage.setItem(profileKey(store.profile.email), JSON.stringify(ensureStoreShape(store)));
   localStorage.setItem(savedProfileKey(), store.profile.email);
 }
 
@@ -240,6 +266,12 @@ function statusForScenario(store) {
   return `Saved ${new Date(saved.updatedAt).toLocaleDateString()}`;
 }
 
+function statusForHorizon(store) {
+  const saved = store?.horizonMaps?.[horizonKey()];
+  if (!saved) return "Not started";
+  return `Saved ${new Date(saved.updatedAt).toLocaleDateString()}`;
+}
+
 function renderDashboard() {
   const store = getStore();
   renderActions(store);
@@ -262,7 +294,18 @@ function renderVolume() {
   });
   const scenarioStatus = document.querySelector("[data-scenario-status]");
   if (scenarioStatus) scenarioStatus.textContent = statusForScenario(store);
+  const horizonStatus = document.querySelector("[data-horizon-status]");
+  if (horizonStatus) horizonStatus.textContent = statusForHorizon(store);
   showView("volume");
+}
+
+function renderScenarioChoice() {
+  const store = getStore();
+  const scenarioStatus = document.querySelector("[data-scenario-status]");
+  if (scenarioStatus) scenarioStatus.textContent = statusForScenario(store);
+  const horizonStatus = document.querySelector("[data-horizon-status]");
+  if (horizonStatus) horizonStatus.textContent = statusForHorizon(store);
+  showView("scenario-choice");
 }
 
 function renderActions(store) {
@@ -287,7 +330,18 @@ function renderActions(store) {
       index
     }));
   });
-  const savedActions = [...worksheetActions, ...scenarioActions];
+  const horizonActions = Object.entries(store?.horizonMaps || {}).flatMap(([horizonId, saved]) => {
+    return normalizeActions(saved).map((action, index) => ({
+      ...action,
+      worksheetId: horizonId,
+      worksheet: {
+        volume: "Apply Playbook",
+        title: saved.title ? `3 Horizon Tension Map: ${saved.title}` : "3 Horizon Tension Map"
+      },
+      index
+    }));
+  });
+  const savedActions = [...worksheetActions, ...scenarioActions, ...horizonActions];
 
   if (!savedActions.length) {
     actionList.innerHTML = "<p>No actions saved yet. Complete a worksheet to create your first commitment.</p>";
@@ -363,6 +417,104 @@ function scenarioReportText() {
   ];
 
   return lines.join("\n");
+}
+
+function wrapPdfText(text, maxLength = 82) {
+  const words = String(text || "").split(/\s+/).filter(Boolean);
+  const lines = [];
+  let line = "";
+
+  words.forEach((word) => {
+    const next = line ? `${line} ${word}` : word;
+    if (next.length > maxLength && line) {
+      lines.push(line);
+      line = word;
+    } else {
+      line = next;
+    }
+  });
+
+  if (line) lines.push(line);
+  return lines.length ? lines : [""];
+}
+
+function escapePdfText(text) {
+  return String(text || "")
+    .replace(/\\/g, "\\\\")
+    .replace(/\(/g, "\\(")
+    .replace(/\)/g, "\\)");
+}
+
+function pdfReportLines(text) {
+  return text.split("\n").flatMap((line) => {
+    if (!line.trim()) return [""];
+    return wrapPdfText(line);
+  });
+}
+
+function buildSimplePdf(text) {
+  const lines = pdfReportLines(text);
+  const pages = [];
+  const pageLineLimit = 38;
+
+  for (let index = 0; index < lines.length; index += pageLineLimit) {
+    pages.push(lines.slice(index, index + pageLineLimit));
+  }
+
+  const objects = [];
+  const addObject = (content) => {
+    objects.push(content);
+    return objects.length;
+  };
+
+  const fontRegular = addObject("<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>");
+  const fontBold = addObject("<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>");
+  const pageRefs = [];
+
+  pages.forEach((pageLines) => {
+    const stream = pageLines
+      .map((line, lineIndex) => {
+        const y = 760 - lineIndex * 18;
+        const isHeading =
+          line &&
+          line === line.toUpperCase() &&
+          !line.startsWith("-") &&
+          line.length < 42;
+        const font = isHeading ? "F2" : "F1";
+        const size = isHeading ? 13 : 10.5;
+        return `BT /${font} ${size} Tf 54 ${y} Td (${escapePdfText(line)}) Tj ET`;
+      })
+      .join("\n");
+    const streamRef = addObject(`<< /Length ${stream.length} >>\nstream\n${stream}\nendstream`);
+    pageRefs.push({ streamRef });
+  });
+
+  const pagesRef = objects.length + pages.length + 1;
+  pageRefs.forEach((page) => {
+    page.ref = addObject(
+      `<< /Type /Page /Parent ${pagesRef} 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 ${fontRegular} 0 R /F2 ${fontBold} 0 R >> >> /Contents ${page.streamRef} 0 R >>`
+    );
+  });
+
+  const kids = pageRefs.map((page) => `${page.ref} 0 R`).join(" ");
+  addObject(`<< /Type /Pages /Kids [${kids}] /Count ${pageRefs.length} >>`);
+  const catalogRef = addObject(`<< /Type /Catalog /Pages ${pagesRef} 0 R >>`);
+
+  let pdf = "%PDF-1.4\n";
+  const offsets = [0];
+  objects.forEach((object, index) => {
+    offsets.push(pdf.length);
+    pdf += `${index + 1} 0 obj\n${object}\nendobj\n`;
+  });
+
+  const xrefOffset = pdf.length;
+  pdf += `xref\n0 ${objects.length + 1}\n0000000000 65535 f \n`;
+  offsets.slice(1).forEach((offset) => {
+    pdf += `${String(offset).padStart(10, "0")} 00000 n \n`;
+  });
+  pdf += `trailer\n<< /Size ${objects.length + 1} /Root ${catalogRef} 0 R >>\nstartxref\n${xrefOffset}\n%%EOF`;
+
+  return pdf;
 }
 
 function saveScenario() {
@@ -525,10 +677,10 @@ function moveScenarioCard(direction) {
 
 function downloadScenarioReport() {
   saveScenario();
-  const blob = new Blob([scenarioReportText()], { type: "text/plain;charset=utf-8" });
+  const blob = new Blob([buildSimplePdf(scenarioReportText())], { type: "application/pdf" });
   const link = document.createElement("a");
   link.href = URL.createObjectURL(blob);
-  link.download = "slp-my-scenario-report.txt";
+  link.download = "slp-my-scenario-report.pdf";
   link.click();
   URL.revokeObjectURL(link.href);
 }
@@ -539,6 +691,324 @@ function updateScenarioEmailLink() {
   const subject = encodeURIComponent("My SLP scenario report");
   const body = encodeURIComponent(scenarioReportText());
   link.href = `mailto:?subject=${subject}&body=${body}`;
+}
+
+function horizonKey() {
+  return "future-shaping-3-horizon-tension-map";
+}
+
+function defaultHorizonMap() {
+  return {
+    title: "",
+    team: "",
+    budgetMode: "credits",
+    currency: "credits",
+    budget: 100,
+    timeframes: {
+      h1: "1-3 years",
+      h2: "3-5 years",
+      h3: "5+ years"
+    },
+    periodBudgets: {
+      h1: 0,
+      h2: 0,
+      h3: 0
+    },
+    investments: [],
+    actions: []
+  };
+}
+
+function getHorizonStore() {
+  const store = getStore();
+  if (!store.horizonMaps) store.horizonMaps = {};
+  return store;
+}
+
+function horizonLabels() {
+  return {
+    h1: {
+      number: "Horizon 1",
+      title: "Sustain and optimize the core"
+    },
+    h2: {
+      number: "Horizon 2",
+      title: "Extend and differentiate"
+    },
+    h3: {
+      number: "Horizon 3",
+      title: "Shape the future"
+    }
+  };
+}
+
+function horizonCurrencyLabel(map = companionState.horizonMap) {
+  if (!map || map.budgetMode === "credits") return "credits";
+  return map.currency || "ZAR";
+}
+
+function formatHorizonAmount(amount, map = companionState.horizonMap) {
+  const value = Number(amount || 0);
+  const label = horizonCurrencyLabel(map);
+  if (label === "credits") return `${value} credits`;
+  return `${label} ${value.toLocaleString()}`;
+}
+
+function horizonSpent(map = companionState.horizonMap) {
+  return (map?.investments || [])
+    .filter((investment) => !investment.eliminated)
+    .reduce((total, investment) => total + Number(investment.amount || 0), 0);
+}
+
+function collectHorizonMapFromDom() {
+  const existing = companionState.horizonMap || defaultHorizonMap();
+  const action = {
+    text: document.querySelector("[data-horizon-action-text]")?.value.trim() || "",
+    dueDate: document.querySelector("[data-horizon-action-due]")?.value || "",
+    owner: document.querySelector("[data-horizon-action-owner]")?.value.trim() || ""
+  };
+  companionState.horizonMap = {
+    ...existing,
+    title: document.querySelector("[data-horizon-title]")?.value.trim() || "",
+    team: document.querySelector("[data-horizon-team]")?.value.trim() || "",
+    budgetMode: document.querySelector("[data-horizon-budget-mode]")?.value || "credits",
+    currency: document.querySelector("[data-horizon-currency]")?.value || "credits",
+    budget: Number(document.querySelector("[data-horizon-budget]")?.value || 100),
+    timeframes: {
+      h1: document.querySelector('[data-horizon-timeframe="h1"]')?.value.trim() || "1-3 years",
+      h2: document.querySelector('[data-horizon-timeframe="h2"]')?.value.trim() || "3-5 years",
+      h3: document.querySelector('[data-horizon-timeframe="h3"]')?.value.trim() || "5+ years"
+    },
+    periodBudgets: {
+      h1: Number(document.querySelector('[data-horizon-period-budget="h1"]')?.value || 0),
+      h2: Number(document.querySelector('[data-horizon-period-budget="h2"]')?.value || 0),
+      h3: Number(document.querySelector('[data-horizon-period-budget="h3"]')?.value || 0)
+    },
+    actions: action.text || action.dueDate || action.owner ? [action] : []
+  };
+  return companionState.horizonMap;
+}
+
+function setHorizonForm(map) {
+  document.querySelector("[data-horizon-title]").value = map.title || "";
+  document.querySelector("[data-horizon-team]").value = map.team || "";
+  document.querySelector("[data-horizon-budget-mode]").value = map.budgetMode || "credits";
+  document.querySelector("[data-horizon-currency]").value = map.currency || "credits";
+  document.querySelector("[data-horizon-budget]").value = map.budget || 100;
+  Object.entries(map.timeframes || {}).forEach(([horizon, value]) => {
+    const input = document.querySelector(`[data-horizon-timeframe="${horizon}"]`);
+    if (input) input.value = value || "";
+  });
+  Object.entries(map.periodBudgets || {}).forEach(([horizon, value]) => {
+    const input = document.querySelector(`[data-horizon-period-budget="${horizon}"]`);
+    if (input) input.value = value || 0;
+  });
+  const action = (map.actions || [])[0] || {};
+  document.querySelector("[data-horizon-action-text]").value = action.text || "";
+  document.querySelector("[data-horizon-action-due]").value = action.dueDate || "";
+  document.querySelector("[data-horizon-action-owner]").value = action.owner || "";
+}
+
+function renderHorizonBudget() {
+  const map = collectHorizonMapFromDom();
+  const spent = horizonSpent(map);
+  const remaining = Number(map.budget || 0) - spent;
+  const total = document.querySelector("[data-horizon-total]");
+  const balance = document.querySelector("[data-horizon-remaining]");
+  const status = document.querySelector("[data-horizon-budget-status]");
+  if (total) total.textContent = formatHorizonAmount(map.budget, map);
+  if (balance) balance.textContent = formatHorizonAmount(remaining, map);
+  if (status) {
+    status.textContent =
+      remaining < 0
+        ? "You are over budget. Lower allocations, eliminate items, or increase the budget before saving."
+        : `You have allocated ${formatHorizonAmount(spent, map)} so far. Keep testing whether the trade-offs still make strategic sense.`;
+    status.classList.toggle("is-warning", remaining < 0);
+  }
+}
+
+function renderHorizonBoard() {
+  const board = document.querySelector("[data-horizon-board]");
+  if (!board) return;
+  const map = collectHorizonMapFromDom();
+  const labels = horizonLabels();
+  board.innerHTML = Object.entries(labels)
+    .map(([horizon, label]) => {
+      const investments = map.investments.filter((investment) => investment.horizon === horizon);
+      return `
+        <article class="horizon-column" data-horizon-column="${horizon}">
+          <div class="horizon-column-heading">
+            <span>${label.number}</span>
+            <h3>${label.title}</h3>
+            <small>${map.timeframes?.[horizon] || ""}</small>
+            <small>Period budget: ${formatHorizonAmount(map.periodBudgets?.[horizon] || 0, map)}</small>
+          </div>
+          <div class="horizon-investment-list">
+            ${
+              investments.length
+                ? investments.map(renderHorizonInvestment).join("")
+                : `<p class="horizon-empty">No investments placed here yet.</p>`
+            }
+          </div>
+        </article>
+      `;
+    })
+    .join("");
+  renderHorizonBudget();
+  updateHorizonEmailLink();
+}
+
+function renderHorizonInvestment(investment) {
+  return `
+    <article class="horizon-investment ${investment.eliminated ? "is-eliminated" : ""}" data-horizon-investment="${investment.id}">
+      <p>${investment.text}</p>
+      <div class="horizon-investment-meta">
+        <span>${investment.pillar}</span>
+        <label>
+          <small>Allocation</small>
+          <input type="number" min="0" step="1" value="${investment.amount || 0}" data-horizon-amount="${investment.id}">
+        </label>
+      </div>
+      <button type="button" class="secondary-action horizon-toggle" data-horizon-toggle="${investment.id}">
+        ${investment.eliminated ? "Restore / keep" : "Keep / Eliminate"}
+      </button>
+      <div class="horizon-tradeoff-fields">
+        <label>
+          Consequence of eliminating this
+          <textarea data-horizon-consequence="${investment.id}" placeholder="What becomes weaker, slower, riskier, or delayed?">${investment.consequence || ""}</textarea>
+        </label>
+        <label>
+          How will you manage the gap?
+          <textarea data-horizon-mitigation="${investment.id}" placeholder="What smaller move, partner, sequence, or safeguard can reduce the risk?">${investment.mitigation || ""}</textarea>
+        </label>
+      </div>
+    </article>
+  `;
+}
+
+function addHorizonInvestment() {
+  const textInput = document.querySelector("[data-horizon-investment-text]");
+  const text = textInput.value.trim();
+  const status = document.querySelector("[data-horizon-save-status]");
+  if (!text) {
+    if (status) status.textContent = "Add an investment before placing it on the map.";
+    return;
+  }
+  const map = collectHorizonMapFromDom();
+  map.investments.push({
+    id: crypto?.randomUUID ? crypto.randomUUID() : `horizon-${Date.now()}`,
+    text,
+    horizon: document.querySelector("[data-horizon-investment-horizon]").value,
+    pillar: document.querySelector("[data-horizon-investment-pillar]").value,
+    amount: Number(document.querySelector("[data-horizon-investment-amount]").value || 0),
+    eliminated: false,
+    consequence: "",
+    mitigation: ""
+  });
+  textInput.value = "";
+  companionState.horizonMap = map;
+  renderHorizonBoard();
+  if (status) status.textContent = "Investment added. Keep building or test the trade-offs.";
+}
+
+function updateHorizonInvestment(id, patch) {
+  const map = collectHorizonMapFromDom();
+  map.investments = map.investments.map((investment) =>
+    investment.id === id ? { ...investment, ...patch } : investment
+  );
+  companionState.horizonMap = map;
+}
+
+function saveHorizonMap() {
+  const map = collectHorizonMapFromDom();
+  const remaining = Number(map.budget || 0) - horizonSpent(map);
+  const status = document.querySelector("[data-horizon-save-status]");
+  if (remaining < 0) {
+    if (status) status.textContent = "You are over budget. Bring the map back within budget before saving.";
+    renderHorizonBudget();
+    return false;
+  }
+  const store = getHorizonStore();
+  store.horizonMaps[horizonKey()] = {
+    ...map,
+    updatedAt: new Date().toISOString()
+  };
+  saveStore(store);
+  if (status) status.textContent = "Saved on this device.";
+  renderVolume();
+  showView("horizon-tool");
+  return true;
+}
+
+function horizonReportText() {
+  const map = collectHorizonMapFromDom();
+  const labels = horizonLabels();
+  const lines = [
+    "SLP Companion - 3 Horizon Tension Map",
+    "",
+    `Scenario: ${map.title || "Untitled horizon strategy"}`,
+    `Team / business: ${map.team || "Not captured"}`,
+    `Budget: ${formatHorizonAmount(map.budget, map)}`,
+    `Allocated: ${formatHorizonAmount(horizonSpent(map), map)}`,
+    `Remaining: ${formatHorizonAmount(Number(map.budget || 0) - horizonSpent(map), map)}`,
+    ""
+  ];
+
+  Object.entries(labels).forEach(([horizon, label]) => {
+    lines.push(`${label.number.toUpperCase()} - ${label.title}`);
+    lines.push(`Timeframe: ${map.timeframes?.[horizon] || "Not captured"}`);
+    lines.push(`Period budget: ${formatHorizonAmount(map.periodBudgets?.[horizon] || 0, map)}`);
+    const investments = map.investments.filter((investment) => investment.horizon === horizon);
+    if (!investments.length) lines.push("- No investments added.");
+    investments.forEach((investment) => {
+      lines.push(
+        `- ${investment.text} | ${investment.pillar} | ${formatHorizonAmount(investment.amount, map)} | ${
+          investment.eliminated ? "Eliminated" : "Kept"
+        }`
+      );
+      if (investment.eliminated) {
+        lines.push(`  Consequence: ${investment.consequence || "Not captured"}`);
+        lines.push(`  Gap plan: ${investment.mitigation || "Not captured"}`);
+      }
+    });
+    lines.push("");
+  });
+
+  lines.push("ACTION");
+  const action = map.actions?.[0];
+  lines.push(
+    action
+      ? `- ${action.text || "No action text"} | Due: ${action.dueDate || "No date set"} | Involved: ${action.owner || "To confirm"}`
+      : "- No action saved yet."
+  );
+  return lines.join("\n");
+}
+
+function downloadHorizonReport() {
+  if (!saveHorizonMap()) return;
+  const blob = new Blob([buildSimplePdf(horizonReportText())], { type: "application/pdf" });
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = "slp-3-horizon-tension-map.pdf";
+  link.click();
+  URL.revokeObjectURL(link.href);
+}
+
+function updateHorizonEmailLink() {
+  const link = document.querySelector("[data-email-horizon]");
+  if (!link) return;
+  const subject = encodeURIComponent("My SLP 3 Horizon Tension Map");
+  const body = encodeURIComponent(horizonReportText());
+  link.href = `mailto:?subject=${subject}&body=${body}`;
+}
+
+function renderHorizonTool() {
+  const store = getHorizonStore();
+  const saved = store.horizonMaps[horizonKey()];
+  companionState.horizonMap = saved ? structuredClone(saved) : defaultHorizonMap();
+  setHorizonForm(companionState.horizonMap);
+  renderHorizonBoard();
+  showView("horizon-tool");
 }
 
 function fieldValue(saved, fieldName) {
@@ -892,15 +1362,23 @@ document.getElementById("companion-login-form").addEventListener("submit", (even
     saveStore(store);
   }
   updateProfileCard();
-  renderDashboard();
+  openRequestedTool();
 });
 
 document.querySelectorAll("[data-open-worksheet]").forEach((card) => {
   card.addEventListener("click", () => renderWorksheet(card.dataset.openWorksheet));
 });
 
+document.querySelectorAll("[data-open-scenario-menu]").forEach((card) => {
+  card.addEventListener("click", renderScenarioChoice);
+});
+
 document.querySelectorAll("[data-open-scenario]").forEach((card) => {
   card.addEventListener("click", renderScenarioTool);
+});
+
+document.querySelectorAll("[data-open-horizon]").forEach((card) => {
+  card.addEventListener("click", renderHorizonTool);
 });
 
 document.querySelectorAll("[data-open-placeholder]").forEach((card) => {
@@ -918,7 +1396,11 @@ document.getElementById("back-to-map").addEventListener("click", renderDashboard
 
 document.getElementById("back-to-volume").addEventListener("click", renderVolume);
 
-document.getElementById("back-from-scenario").addEventListener("click", renderVolume);
+document.getElementById("back-from-scenario-choice").addEventListener("click", renderVolume);
+
+document.getElementById("back-from-scenario").addEventListener("click", renderScenarioChoice);
+
+document.getElementById("back-from-horizon").addEventListener("click", renderScenarioChoice);
 
 document.getElementById("back-from-placeholder").addEventListener("click", renderVolume);
 
@@ -951,7 +1433,34 @@ document.querySelector("[data-email-scenario]").addEventListener("click", update
 
 document.querySelector("[data-scenario-insight]").addEventListener("input", saveScenario);
 
+document.querySelector("[data-add-horizon-investment]").addEventListener("click", addHorizonInvestment);
+
+document.querySelector("[data-save-horizon]").addEventListener("click", saveHorizonMap);
+
+document.querySelector("[data-download-horizon]").addEventListener("click", downloadHorizonReport);
+
+document.querySelector("[data-email-horizon]").addEventListener("click", updateHorizonEmailLink);
+
+document.querySelectorAll(
+  "[data-horizon-title], [data-horizon-team], [data-horizon-budget-mode], [data-horizon-currency], [data-horizon-budget], [data-horizon-timeframe], [data-horizon-period-budget], [data-horizon-action-text], [data-horizon-action-due], [data-horizon-action-owner]"
+).forEach((input) => {
+  input.addEventListener("input", renderHorizonBudget);
+  input.addEventListener("change", renderHorizonBudget);
+});
+
 document.addEventListener("click", (event) => {
+  const horizonToggle = event.target.closest("[data-horizon-toggle]");
+  if (horizonToggle) {
+    const id = horizonToggle.dataset.horizonToggle;
+    const map = collectHorizonMapFromDom();
+    const investment = map.investments.find((item) => item.id === id);
+    if (investment) {
+      updateHorizonInvestment(id, { eliminated: !investment.eliminated });
+      renderHorizonBoard();
+    }
+    return;
+  }
+
   const addShiftRowButton = event.target.closest("[data-add-shift-row]");
   if (addShiftRowButton) {
     const hiddenRow = document.querySelector(".worksheet-shift-row.hidden");
@@ -967,6 +1476,30 @@ document.addEventListener("click", (event) => {
   startVoice(button.dataset.target, button);
 });
 
+document.addEventListener("input", (event) => {
+  const amountInput = event.target.closest("[data-horizon-amount]");
+  if (amountInput) {
+    updateHorizonInvestment(amountInput.dataset.horizonAmount, { amount: Number(amountInput.value || 0) });
+    renderHorizonBudget();
+    return;
+  }
+
+  const consequenceInput = event.target.closest("[data-horizon-consequence]");
+  if (consequenceInput) {
+    updateHorizonInvestment(consequenceInput.dataset.horizonConsequence, {
+      consequence: consequenceInput.value
+    });
+    return;
+  }
+
+  const mitigationInput = event.target.closest("[data-horizon-mitigation]");
+  if (mitigationInput) {
+    updateHorizonInvestment(mitigationInput.dataset.horizonMitigation, {
+      mitigation: mitigationInput.value
+    });
+  }
+});
+
 function initializeCompanion() {
   if (isPreviewMode) {
     companionState.profile = {
@@ -975,7 +1508,7 @@ function initializeCompanion() {
       email: "Member access required"
     };
     updateProfileCard();
-    renderDashboard();
+    openRequestedTool();
     return;
   }
 
@@ -996,6 +1529,25 @@ function initializeCompanion() {
   const store = JSON.parse(raw);
   companionState.profile = store.profile;
   updateProfileCard();
+  openRequestedTool();
+}
+
+function openRequestedTool() {
+  if (requestedTool === "horizon") {
+    renderHorizonTool();
+    return;
+  }
+
+  if (requestedTool === "scenario") {
+    renderScenarioTool();
+    return;
+  }
+
+  if (requestedTool === "scenario-menu") {
+    renderScenarioChoice();
+    return;
+  }
+
   renderDashboard();
 }
 

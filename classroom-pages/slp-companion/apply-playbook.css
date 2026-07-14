@@ -193,6 +193,30 @@
   gap: 16px;
 }
 
+.single-tool-grid {
+  grid-template-columns: minmax(0, 760px);
+}
+
+.build-scenario-entry {
+  min-height: 260px;
+  align-content: center;
+}
+
+.scenario-choice-grid {
+  align-items: stretch;
+}
+
+.horizon-card {
+  background: var(--cream);
+  border-color: var(--green);
+  box-shadow: 8px 8px 0 rgba(107, 42, 143, 0.28);
+}
+
+.horizon-card:hover {
+  border-color: var(--purple);
+  box-shadow: 9px 9px 0 rgba(199, 222, 0, 0.5);
+}
+
 .volume-card {
   display: grid;
   gap: 10px;
@@ -863,6 +887,182 @@
   font-weight: 900;
 }
 
+.horizon-tool {
+  display: grid;
+  gap: 22px;
+}
+
+.horizon-tool-hero,
+.horizon-setup-grid,
+.horizon-timeframe-grid,
+.horizon-add-panel,
+.horizon-budget-summary,
+.horizon-action-panel {
+  padding: 24px;
+  border: 1px solid rgba(107, 42, 143, 0.24);
+  border-radius: 22px;
+  background: rgba(255, 253, 240, 0.94);
+}
+
+.horizon-tool-hero h3,
+.horizon-add-panel h3,
+.horizon-action-panel h3 {
+  color: var(--purple);
+  font-size: clamp(1.7rem, 3vw, 2.5rem);
+}
+
+.horizon-tool-hero p,
+.horizon-budget-summary p {
+  margin: 0;
+  line-height: 1.55;
+}
+
+.horizon-setup-grid,
+.horizon-timeframe-grid,
+.horizon-add-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.horizon-setup-grid label,
+.horizon-timeframe-grid label,
+.horizon-add-grid label,
+.horizon-action-panel label,
+.horizon-tradeoff-fields label {
+  display: grid;
+  gap: 8px;
+  color: var(--ink);
+  font-weight: 900;
+}
+
+.horizon-period-card {
+  padding: 16px;
+  border: 1px solid rgba(107, 42, 143, 0.24);
+  border-radius: 18px;
+  background: rgba(199, 222, 0, 0.14);
+}
+
+.horizon-budget-summary {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  align-items: center;
+}
+
+.horizon-budget-summary div {
+  display: grid;
+  gap: 6px;
+  padding: 18px;
+  border-radius: 18px;
+  background: #26003a;
+  color: #fff;
+}
+
+.horizon-budget-summary strong {
+  color: var(--green-2);
+  font-size: 1.4rem;
+}
+
+.horizon-budget-summary p {
+  grid-column: 1 / -1;
+  color: var(--deep-green);
+  font-weight: 900;
+}
+
+.horizon-budget-summary p.is-warning {
+  color: #b82222;
+}
+
+.horizon-board {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.horizon-column {
+  min-height: 360px;
+  display: grid;
+  align-content: start;
+  gap: 16px;
+  padding: 20px;
+  border-radius: 22px;
+  background: #26003a;
+  color: #fff;
+  box-shadow: 8px 8px 0 rgba(199, 222, 0, 0.35);
+}
+
+.horizon-column-heading {
+  display: grid;
+  gap: 6px;
+}
+
+.horizon-column-heading span,
+.horizon-column-heading small {
+  color: var(--green-2);
+  font-weight: 900;
+}
+
+.horizon-column-heading h3 {
+  color: #fff;
+  font-size: 1.45rem;
+}
+
+.horizon-investment-list {
+  display: grid;
+  gap: 12px;
+}
+
+.horizon-empty,
+.horizon-investment {
+  margin: 0;
+  padding: 14px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.horizon-investment {
+  display: grid;
+  gap: 12px;
+}
+
+.horizon-investment.is-eliminated {
+  opacity: 0.72;
+  outline: 2px dashed var(--green-2);
+}
+
+.horizon-investment p {
+  margin: 0;
+  color: #fff;
+  font-weight: 900;
+}
+
+.horizon-investment-meta,
+.horizon-tradeoff-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.horizon-investment-meta span {
+  align-self: end;
+  width: fit-content;
+  padding: 8px 10px;
+  border-radius: 999px;
+  background: var(--green-2);
+  color: var(--charcoal);
+  font-weight: 900;
+}
+
+.horizon-investment input,
+.horizon-investment textarea {
+  width: 100%;
+}
+
+.horizon-toggle {
+  width: fit-content;
+}
+
 @media (max-width: 760px) {
   .companion-shell {
     width: min(100% - 20px, 1120px);
@@ -874,6 +1074,13 @@
   .volume-grid,
   .scenario-buckets,
   .scenario-sort-actions,
+  .horizon-setup-grid,
+  .horizon-timeframe-grid,
+  .horizon-add-grid,
+  .horizon-budget-summary,
+  .horizon-board,
+  .horizon-investment-meta,
+  .horizon-tradeoff-fields,
   .diagnostic-start,
   .placeholder-layout,
   .companion-topbar {
