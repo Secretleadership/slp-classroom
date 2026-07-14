@@ -22,6 +22,7 @@ const companionState = {
 
 const companionAccess = new URLSearchParams(window.location.search).get("access");
 const isPreviewMode = companionAccess === "preview";
+const requestedTool = new URLSearchParams(window.location.search).get("tool");
 
 const worksheets = {
   "managing-up": {
@@ -1361,7 +1362,7 @@ document.getElementById("companion-login-form").addEventListener("submit", (even
     saveStore(store);
   }
   updateProfileCard();
-  renderDashboard();
+  openRequestedTool();
 });
 
 document.querySelectorAll("[data-open-worksheet]").forEach((card) => {
@@ -1507,7 +1508,7 @@ function initializeCompanion() {
       email: "Member access required"
     };
     updateProfileCard();
-    renderDashboard();
+    openRequestedTool();
     return;
   }
 
@@ -1528,6 +1529,25 @@ function initializeCompanion() {
   const store = JSON.parse(raw);
   companionState.profile = store.profile;
   updateProfileCard();
+  openRequestedTool();
+}
+
+function openRequestedTool() {
+  if (requestedTool === "horizon") {
+    renderHorizonTool();
+    return;
+  }
+
+  if (requestedTool === "scenario") {
+    renderScenarioTool();
+    return;
+  }
+
+  if (requestedTool === "scenario-menu") {
+    renderScenarioChoice();
+    return;
+  }
+
   renderDashboard();
 }
 
