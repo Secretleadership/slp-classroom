@@ -312,29 +312,6 @@ a {
   height: 100%;
 }
 
-.video-open-link {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: fit-content;
-  min-height: 42px;
-  margin-top: 14px;
-  padding: 9px 18px;
-  border-radius: 999px;
-  color: var(--plum);
-  background: var(--green);
-  box-shadow: 0 5px 0 var(--purple);
-  font-size: 14px;
-  font-weight: 950;
-  text-decoration: none;
-  text-transform: uppercase;
-}
-
-.video-open-link:hover,
-.video-open-link:focus-visible {
-  background: var(--green-2);
-}
-
 .video-placeholder span,
 .image-placeholder span {
   display: inline-flex;
