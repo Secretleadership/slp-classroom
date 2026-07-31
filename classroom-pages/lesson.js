@@ -544,7 +544,7 @@
         saveHorizonState(true);
         localStorage.setItem(horizonCompletionKey, "true");
         if (horizonStatus) {
-          horizonStatus.textContent = "Saved on this device. This strategy is ready for the next step.";
+          horizonStatus.textContent = "Strategy saved. This strategy is ready for the next step.";
         }
       });
     }
@@ -606,7 +606,7 @@
     }
 
     if (horizonStatus && savedHorizonState.savedBaseline) {
-      horizonStatus.textContent = "Saved on this device. This strategy is ready for the next step.";
+      horizonStatus.textContent = "Strategy saved. This strategy is ready for the next step.";
     }
 
     renderHorizonBoard();
@@ -679,7 +679,8 @@
 
     function getTradeoffSpent() {
       return tradeoffItems.reduce(function (sum, item) {
-        return item.keep ? sum + Number(item.cost || 0) : sum;
+        var itemCost = Number(item.cost);
+        return item.keep && Number.isFinite(itemCost) ? sum + itemCost : sum;
       }, 0);
     }
 
@@ -691,9 +692,43 @@
       if (budgetStatus) {
         budgetStatus.textContent = remaining < 0
           ? "You are over budget. Eliminate or reduce credits before saving."
-          : "Credits used: " + spent + " / " + tradeoffBudget + ".";
+          : remaining > 0
+            ? "Credits used: " + spent + " / " + tradeoffBudget + ". Allocate the remaining " + remaining + " credits before saving."
+            : "Credits used: " + spent + " / " + tradeoffBudget + ". Your trade-offs are ready to save.";
       }
-      if (saveTradeoffButton) saveTradeoffButton.disabled = remaining < 0;
+      if (saveTradeoffButton) saveTradeoffButton.disabled = remaining !== 0;
+    }
+
+    function showTradeoffSuccessPopup() {
+      var existing = document.querySelector("[data-tradeoff-success-popup]");
+      if (existing) existing.remove();
+
+      var popup = document.createElement("div");
+      popup.className = "tradeoff-success-popup";
+      popup.setAttribute("data-tradeoff-success-popup", "");
+      popup.setAttribute("role", "dialog");
+      popup.setAttribute("aria-modal", "true");
+      popup.innerHTML =
+        '<div class="tradeoff-success-card">' +
+          '<p class="section-kicker">Strategy saved</p>' +
+          '<div class="tradeoff-success-budget" aria-label="Credit budget complete">' +
+            '<div><strong>0</strong><span>credits remaining</span></div>' +
+            '<div class="tradeoff-success-meter"><span></span></div>' +
+            '<p>Credits used: 100 / 100</p>' +
+          '</div>' +
+          '<h2>You have successfully made the trade-offs.</h2>' +
+          '<p>You allocated your credits, eliminated what could not be resourced, and prioritised the investments your Horizon strategy can actually carry.</p>' +
+          '<button class="cta" type="button" data-close-tradeoff-success>Continue</button>' +
+        '</div>';
+
+      document.body.appendChild(popup);
+      var closeButton = popup.querySelector("[data-close-tradeoff-success]");
+      if (closeButton) {
+        closeButton.focus();
+        closeButton.addEventListener("click", function () {
+          popup.remove();
+        });
+      }
     }
 
     function saveTradeoffState(markSaved) {
@@ -775,10 +810,10 @@
         controls.className = "tradeoff-controls";
 
         var cost = document.createElement("select");
-        [5, 8, 10, 12, 15, 20].forEach(function (value) {
+        [1, 5, 8, 10, 12, 15, 20].forEach(function (value) {
           var option = document.createElement("option");
           option.value = String(value);
-          option.textContent = value + " credits";
+          option.textContent = value + (value === 1 ? " credit" : " credits");
           option.selected = Number(item.cost) === value;
           cost.appendChild(option);
         });
@@ -846,12 +881,13 @@
 
     if (saveTradeoffButton) {
       saveTradeoffButton.addEventListener("click", function () {
-        if (getTradeoffSpent() > tradeoffBudget) return;
+        if (getTradeoffSpent() !== tradeoffBudget) return;
         saveTradeoffState(true);
         localStorage.setItem("slp-horizon-strategy-lab-3-complete", "true");
         if (tradeoffSaveStatus) {
-          tradeoffSaveStatus.textContent = "Saved on this device. Your trade-off strategy is ready for the final debrief.";
+          tradeoffSaveStatus.textContent = "Strategy saved. Your trade-off strategy is ready for the final debrief.";
         }
+        showTradeoffSuccessPopup();
       });
     }
 
@@ -888,7 +924,7 @@
     }
 
     if (tradeoffSaveStatus && savedTradeoff.saved) {
-      tradeoffSaveStatus.textContent = "Saved on this device. Your trade-off strategy is ready for the final debrief.";
+      tradeoffSaveStatus.textContent = "Strategy saved. Your trade-off strategy is ready for the final debrief.";
     }
 
     renderTradeoffBoard();

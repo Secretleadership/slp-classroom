@@ -365,6 +365,45 @@ a {
   text-decoration: none;
 }
 
+.lesson-actions-light {
+  border-color: rgba(107, 42, 143, 0.2);
+  background: var(--purple);
+}
+
+.class-video-sequence {
+  border-top: 1px solid rgba(107, 42, 143, 0.16);
+}
+
+.reflection-bridge {
+  max-width: none;
+  margin: 0 auto clamp(32px, 5vw, 56px);
+  padding: clamp(34px, 6vw, 72px);
+  background: var(--green);
+  color: var(--purple);
+}
+
+.reflection-bridge h2 {
+  margin: 0;
+  color: var(--purple);
+  font-family: var(--title-font);
+  font-size: clamp(44px, 7vw, 94px);
+  line-height: 0.98;
+  text-transform: uppercase;
+}
+
+.reflection-bridge .section-kicker {
+  color: var(--cream);
+}
+
+.video-learning-block {
+  align-items: center;
+}
+
+.video-instruction-list {
+  margin-top: 24px;
+  color: var(--purple);
+}
+
 .band {
   padding: clamp(54px, 7vw, 92px) 0;
 }
@@ -2194,6 +2233,94 @@ body.is-lab-locked .lesson-footer {
   background: var(--cream-soft);
   color: var(--ink);
   font: inherit;
+}
+
+.tradeoff-success-popup {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  background: rgba(23, 0, 32, 0.72);
+}
+
+.tradeoff-success-card {
+  width: min(540px, 100%);
+  max-height: calc(100vh - 36px);
+  overflow: auto;
+  padding: clamp(22px, 4vw, 34px);
+  border: 1px solid rgba(107, 42, 143, 0.24);
+  border-radius: 28px;
+  background: var(--cream-soft);
+  box-shadow: 12px 14px 0 rgba(166, 195, 74, 0.42);
+}
+
+.tradeoff-success-budget {
+  display: grid;
+  grid-template-columns: auto minmax(180px, 1fr);
+  gap: 14px;
+  align-items: center;
+  margin: 0 0 18px;
+  padding: 12px 14px;
+  border-radius: 20px;
+  background: var(--plum);
+  color: var(--cream);
+}
+
+.tradeoff-success-budget strong {
+  display: block;
+  color: var(--green-2);
+  font-family: var(--title-font);
+  font-size: clamp(30px, 6vw, 44px);
+  line-height: 0.8;
+}
+
+.tradeoff-success-budget span,
+.tradeoff-success-budget p {
+  color: var(--cream);
+  font-weight: 900;
+}
+
+.tradeoff-success-budget p {
+  grid-column: 2;
+  margin: 0;
+  color: #ffffff !important;
+  font-size: 15px;
+}
+
+.tradeoff-success-meter {
+  overflow: hidden;
+  height: 12px;
+  border-radius: 999px;
+  background: rgba(244, 239, 202, 0.18);
+}
+
+.tradeoff-success-meter span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--green);
+}
+
+.tradeoff-success-card h2 {
+  margin: 0;
+  color: var(--purple);
+  font-size: clamp(30px, 5vw, 48px);
+}
+
+.tradeoff-success-card p:not(.section-kicker) {
+  margin: 14px 0 24px;
+  color: var(--ink);
+  font-weight: 800;
+}
+
+@media (max-width: 640px) {
+  .tradeoff-success-budget {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
 }
 
 @media (max-width: 900px) {
