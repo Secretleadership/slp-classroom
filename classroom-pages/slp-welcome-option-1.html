@@ -6,7 +6,7 @@
     <title>Welcome to SLP - Option 1</title>
     <meta name="description" content="Welcome video page option for The Secret Leadership Playbook.">
     <link rel="stylesheet" href="styles.css?v=20260801">
-    <link rel="stylesheet" href="slp-welcome.css?v=20260801-carousel-fit-1">
+    <link rel="stylesheet" href="slp-welcome.css?v=20260801-carousel-view-1">
     <style>
       .secret-path {
         isolation: isolate !important;
@@ -212,11 +212,14 @@
     <script>
       const path = document.querySelector(".secret-path");
       const thirdCard = document.querySelector(".secret-path .path-node:nth-of-type(3)");
+      const fifthCard = document.querySelector(".secret-path .path-node:nth-of-type(5)");
       const pathButtons = document.querySelectorAll("[data-path-scroll]");
 
       function setPathShift() {
-        if (!path || !thirdCard) return;
-        const shift = Math.max(0, thirdCard.offsetLeft - path.offsetLeft - 18);
+        if (!path || !thirdCard || !fifthCard) return;
+        const startAtThird = thirdCard.offsetLeft - path.offsetLeft - 18;
+        const endAtFifth = fifthCard.offsetLeft + fifthCard.offsetWidth - path.clientWidth + 28;
+        const shift = Math.max(0, startAtThird, endAtFifth);
         path.style.setProperty("--path-shift", `-${shift}px`);
       }
 
