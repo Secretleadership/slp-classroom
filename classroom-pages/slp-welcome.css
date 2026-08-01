@@ -557,13 +557,15 @@
 
 .secret-path {
   position: relative;
+  isolation: isolate;
   display: grid;
   grid-auto-flow: column;
-  grid-auto-columns: minmax(220px, 1fr);
+  grid-auto-columns: minmax(260px, 300px);
   grid-template-columns: none;
-  gap: 18px;
-  margin-top: 42px;
-  padding: 34px 0 10px;
+  justify-content: start;
+  gap: 28px;
+  margin-top: 48px;
+  padding: 28px 10px 22px;
   overflow-x: auto;
   overscroll-behavior-inline: contain;
   scroll-snap-type: x mandatory;
@@ -573,17 +575,20 @@
 .secret-path::before {
   content: "";
   position: absolute;
-  left: 7%;
-  right: 7%;
-  top: 58px;
-  height: 6px;
+  left: 20px;
+  right: 20px;
+  top: 50%;
+  height: 4px;
   border-radius: 999px;
   background: var(--green-2);
-  opacity: 0.9;
+  opacity: 0.5;
+  transform: translateY(-50%);
+  z-index: -1;
 }
 
 .path-node {
   position: relative;
+  z-index: 1;
   min-height: 300px;
   padding: 22px;
   border: 1px solid rgba(109, 43, 145, 0.18);
@@ -813,12 +818,12 @@
   }
 
   .secret-path::before {
-    left: 26px;
-    right: auto;
-    top: 34px;
-    bottom: 20px;
-    width: 6px;
-    height: auto;
+    left: 18px;
+    right: 18px;
+    top: 50%;
+    bottom: auto;
+    width: auto;
+    height: 4px;
   }
 
   .path-node,
@@ -930,9 +935,9 @@
     grid-auto-flow: column;
     grid-auto-columns: minmax(230px, 78vw);
     grid-template-columns: none;
-    gap: 16px;
+    gap: 18px;
     margin-top: 28px;
-    padding: 28px 6px 18px;
+    padding: 24px 6px 18px;
     overflow-x: auto;
     overscroll-behavior-inline: contain;
     scroll-snap-type: x mandatory;
@@ -942,10 +947,10 @@
   .secret-path::before {
     left: 18px;
     right: 18px;
-    top: 28px;
+    top: 50%;
     bottom: auto;
     width: auto;
-    height: 6px;
+    height: 4px;
   }
 
   .path-node {
@@ -1000,9 +1005,9 @@
     grid-auto-flow: column;
     grid-auto-columns: minmax(230px, 78vw);
     grid-template-columns: none;
-    gap: 16px;
+    gap: 18px;
     margin-top: 28px;
-    padding: 28px 6px 18px;
+    padding: 24px 6px 18px;
     overflow-x: auto;
     overscroll-behavior-inline: contain;
     scroll-snap-type: x mandatory;
@@ -1012,10 +1017,10 @@
   .secret-path::before {
     left: 18px;
     right: 18px;
-    top: 28px;
+    top: 50%;
     bottom: auto;
     width: auto;
-    height: 6px;
+    height: 4px;
   }
 
   .path-node,
