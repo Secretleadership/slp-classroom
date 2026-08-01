@@ -18,15 +18,32 @@
       }
 
       .secret-path::before {
-        top: 50% !important;
-        height: 4px !important;
-        opacity: 0.5 !important;
-        transform: translateY(-50%) !important;
-        z-index: 0 !important;
+        display: none !important;
+      }
+
+      .secret-path-line {
+        position: absolute;
+        left: 20px;
+        top: 50%;
+        width: calc((300px * 5) + (28px * 4) - 40px);
+        height: 4px;
+        border-radius: 999px;
+        background: #c7de00;
+        opacity: 0.5;
+        transform: translateY(-50%);
+        z-index: 0;
+        pointer-events: none;
       }
 
       .path-node {
         z-index: 1 !important;
+      }
+
+      @media (max-width: 980px) {
+        .secret-path-line {
+          left: 18px;
+          width: calc((78vw * 5) + (18px * 4) - 36px);
+        }
       }
     </style>
   </head>
@@ -63,6 +80,7 @@
           <p class="welcome-pill">The SLP path</p>
           <h2>The Secret Leader journey</h2>
           <div class="secret-path" aria-label="The Secret Leader journey">
+            <span class="secret-path-line" aria-hidden="true"></span>
             <article class="path-node">
               <span>01</span>
               <strong>Enter the room</strong>
