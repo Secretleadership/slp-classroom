@@ -6,7 +6,29 @@
     <title>Welcome to SLP - Option 1</title>
     <meta name="description" content="Welcome video page option for The Secret Leadership Playbook.">
     <link rel="stylesheet" href="styles.css?v=20260801">
-    <link rel="stylesheet" href="slp-welcome.css?v=20260801-path">
+    <link rel="stylesheet" href="slp-welcome.css?v=20260801-path-4">
+    <style>
+      .secret-path {
+        isolation: isolate !important;
+        scrollbar-width: none !important;
+      }
+
+      .secret-path::-webkit-scrollbar {
+        display: none !important;
+      }
+
+      .secret-path::before {
+        top: 50% !important;
+        height: 4px !important;
+        opacity: 0.5 !important;
+        transform: translateY(-50%) !important;
+        z-index: 0 !important;
+      }
+
+      .path-node {
+        z-index: 1 !important;
+      }
+    </style>
   </head>
   <body class="welcome-body">
     <main class="welcome-page">
