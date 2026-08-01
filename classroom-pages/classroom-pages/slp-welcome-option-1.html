@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Welcome to SLP - Option 1</title>
+    <meta name="description" content="Welcome video page option for The Secret Leadership Playbook.">
+    <link rel="stylesheet" href="styles.css?v=20260801">
+    <link rel="stylesheet" href="slp-welcome.css?v=20260801-carousel-view-1">
+    <style>
+      .secret-path {
+        isolation: isolate !important;
+        overflow: hidden !important;
+        scrollbar-width: none !important;
+      }
+
+      @media (min-width: 900px) {
+        .secret-path {
+          grid-auto-columns: minmax(0, calc((100% - 56px) / 3)) !important;
+          gap: 28px !important;
+        }
+
+        .secret-path-line {
+          width: calc((((100% - 56px) / 3) * 5) + (28px * 4) - 40px) !important;
+        }
+      }
+
+      .secret-path::-webkit-scrollbar {
+        display: none !important;
+      }
+
+      .secret-path::before {
+        display: none !important;
+      }
+
+      .secret-path-line {
+        position: absolute;
+        left: 20px;
+        top: 50%;
+        width: calc((300px * 5) + (28px * 4) - 40px);
+        height: 4px;
+        border-radius: 999px;
+        background: #c7de00;
+        opacity: 0.5;
+        transform: translateY(-50%);
+        z-index: 0;
+        pointer-events: none;
+      }
+
+      .path-node {
+        transition: transform 320ms ease !important;
+        z-index: 1 !important;
+      }
+
+      .path-node:nth-of-type(1) {
+        color: #100018 !important;
+        background: #f4efca !important;
+        box-shadow: 12px 12px 0 #465720 !important;
+      }
+
+      .path-node:nth-of-type(2) {
+        color: #100018 !important;
+        background: #c7de00 !important;
+        box-shadow: 10px 10px 0 rgba(109, 43, 145, 0.24) !important;
+      }
+
+      .path-node:nth-of-type(3) {
+        color: #f4efca !important;
+        background: #6d2b91 !important;
+        box-shadow: 12px 12px 0 #465720 !important;
+      }
+
+      .path-node:nth-of-type(4) {
+        color: #100018 !important;
+        background: #a9c34e !important;
+        box-shadow: 10px 10px 0 rgba(75, 23, 109, 0.24) !important;
+      }
+
+      .path-node:nth-of-type(5) {
+        color: #f4efca !important;
+        background: #21002e !important;
+        box-shadow: 12px 12px 0 #465720 !important;
+      }
+
+      .path-node:nth-of-type(1) strong,
+      .path-node:nth-of-type(4) strong {
+        color: #6d2b91 !important;
+      }
+
+      .path-node:nth-of-type(2) strong,
+      .path-node:nth-of-type(4) p {
+        color: #21002e !important;
+      }
+
+      .path-node:nth-of-type(3) strong,
+      .path-node:nth-of-type(3) p,
+      .path-node:nth-of-type(5) strong,
+      .path-node:nth-of-type(5) p {
+        color: #f4efca !important;
+      }
+
+      .secret-path.path-shifted .path-node,
+      .secret-path.path-shifted .secret-path-line {
+        transform: translateX(var(--path-shift, -656px)) !important;
+      }
+
+      .path-scroll-actions {
+        display: flex !important;
+        justify-content: flex-end;
+        gap: 12px;
+        margin: 8px 0 12px;
+      }
+
+      .path-scroll-button {
+        display: inline-grid;
+        place-items: center;
+        width: 52px;
+        height: 52px;
+        border: 2px solid #c7de00;
+        border-radius: 50%;
+        color: #21002e;
+        background: #c7de00;
+        font: 900 28px/1 Arial, sans-serif;
+        cursor: pointer;
+      }
+
+      .path-scroll-button:hover {
+        color: #c7de00;
+        background: #465720;
+        border-color: #465720;
+      }
+
+      @media (max-width: 980px) {
+        .secret-path-line {
+          left: 18px;
+          width: calc((78vw * 5) + (18px * 4) - 36px);
+        }
+
+        .path-scroll-actions {
+          justify-content: flex-start;
+        }
+      }
+    </style>
+  </head>
+  <body class="welcome-body">
+    <main class="welcome-page">
+      <section class="welcome-hero-one welcome-centered-hero">
+        <div class="welcome-wrap">
+          <div class="centered-welcome-stack">
+            <div class="slp-logo-type" aria-label="The Secret Leadership Playbook">
+        <small><span>The</span><span>Secret</span><span>Leadership</span></small>
+              <strong>Play<span>book</span></strong>
+            </div>
+
+            <aside id="welcome-video" class="welcome-video-stage" aria-label="SLP welcome video">
+              <div class="welcome-video-frame">
+                <iframe
+                  src="https://player.mediadelivery.net/play/674235/c27ceb32-d95f-4963-9b35-da2bd6943bc3"
+                  title="The Secret Leadership Playbook welcome video"
+                  loading="lazy"
+                  allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture; fullscreen"
+                  allowfullscreen
+                  webkitallowfullscreen
+                  mozallowfullscreen></iframe>
+              </div>
+            </aside>
+
+            <div class="welcome-title-block">
+              <p class="welcome-pill">You are in the right room</p>
+              <h1>Welcome, <span>Secret Leader</span></h1>
+              <p class="intro-copy">You are carrying decisions no one trained you for.</p>
+              <div class="welcome-button-row centered">
+                <a class="welcome-button" href="#journey">Begin the journey</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="journey" class="welcome-journey-band">
+        <div class="welcome-wrap welcome-section">
+          <p class="welcome-pill">The SLP path</p>
+          <h2>The Secret Leader journey</h2>
+          <div class="path-scroll-actions" aria-label="Scroll the SLP path">
+            <button class="path-scroll-button" type="button" data-path-scroll="-1" aria-label="Scroll path left">‹</button>
+            <button class="path-scroll-button" type="button" data-path-scroll="1" aria-label="Scroll path right">›</button>
+          </div>
+          <div class="secret-path" aria-label="The Secret Leader journey">
+            <span class="secret-path-line" aria-hidden="true"></span>
+            <article class="path-node">
+              <span>01</span>
+              <strong>Enter the room</strong>
+              <p>Start with the leadership moment, not a generic lesson.</p>
+            </article>
+            <article class="path-node">
+              <span>02</span>
+              <strong>Watch the story</strong>
+              <p>See the consequence before it becomes obvious.</p>
+            </article>
+            <article class="path-node">
+              <span>03</span>
+              <strong>Read the signals</strong>
+              <p>Notice what pressure is revealing in people, systems, and timing.</p>
+            </article>
+            <article class="path-node">
+              <span>04</span>
+              <strong>Apply the lens</strong>
+              <p>Use the SLP Companion to make sense of the leadership pattern.</p>
+            </article>
+            <article class="path-node">
+              <span>05</span>
+              <strong>Make the move</strong>
+              <p>Turn reflection into a decision, trade-off, or action.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+    <script>
+      const path = document.querySelector(".secret-path");
+      const thirdCard = document.querySelector(".secret-path .path-node:nth-of-type(3)");
+      const fifthCard = document.querySelector(".secret-path .path-node:nth-of-type(5)");
+      const pathButtons = document.querySelectorAll("[data-path-scroll]");
+
+      function setPathShift() {
+        if (!path || !thirdCard || !fifthCard) return;
+        const startAtThird = thirdCard.offsetLeft - path.offsetLeft - 18;
+        const endAtFifth = fifthCard.offsetLeft + fifthCard.offsetWidth - path.clientWidth + 28;
+        const shift = Math.max(0, startAtThird, endAtFifth);
+        path.style.setProperty("--path-shift", `-${shift}px`);
+      }
+
+      setPathShift();
+      window.addEventListener("resize", setPathShift);
+
+      if (pathButtons.length) {
+        pathButtons.forEach((button) => {
+          button.addEventListener("click", () => {
+            if (!path) return;
+            const direction = Number(button.dataset.pathScroll);
+            setPathShift();
+            path.classList.toggle("path-shifted", direction > 0);
+          });
+        });
+      }
+    </script>
+  </body>
+</html>
