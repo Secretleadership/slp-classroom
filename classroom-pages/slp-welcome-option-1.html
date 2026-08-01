@@ -6,7 +6,7 @@
     <title>Welcome to SLP - Option 1</title>
     <meta name="description" content="Welcome video page option for The Secret Leadership Playbook.">
     <link rel="stylesheet" href="styles.css?v=20260801">
-    <link rel="stylesheet" href="slp-welcome.css?v=20260801-logo-1">
+    <link rel="stylesheet" href="slp-welcome.css?v=20260801-carousel-logo-2">
     <style>
       .secret-path {
         isolation: isolate !important;
@@ -57,7 +57,6 @@
         color: #f4efca !important;
         background: #6d2b91 !important;
         box-shadow: 12px 12px 0 #465720 !important;
-        cursor: pointer;
       }
 
       .path-node:nth-of-type(4) {
@@ -102,7 +101,7 @@
       }
 
       .path-scroll-actions {
-        display: none !important;
+        display: flex !important;
         justify-content: flex-end;
         gap: 12px;
         margin: 8px 0 12px;
@@ -115,15 +114,16 @@
         height: 52px;
         border: 2px solid #c7de00;
         border-radius: 50%;
-        color: #f4efca;
-        background: transparent;
+        color: #21002e;
+        background: #c7de00;
         font: 900 28px/1 Arial, sans-serif;
         cursor: pointer;
       }
 
       .path-scroll-button:hover {
-        color: #2b0638;
-        background: #c7de00;
+        color: #c7de00;
+        background: #465720;
+        border-color: #465720;
       }
 
       @media (max-width: 980px) {
@@ -170,7 +170,6 @@
         <div class="welcome-wrap welcome-section">
           <p class="welcome-pill">The SLP path</p>
           <h2>The Secret Leader journey</h2>
-          <p class="path-toggle-hint">Click card 3 to move forward. Click it again to return.</p>
           <div class="path-scroll-actions" aria-label="Scroll the SLP path">
             <button class="path-scroll-button" type="button" data-path-scroll="-1" aria-label="Scroll path left">‹</button>
             <button class="path-scroll-button" type="button" data-path-scroll="1" aria-label="Scroll path right">›</button>
@@ -209,6 +208,7 @@
     <script>
       const path = document.querySelector(".secret-path");
       const thirdCard = document.querySelector(".secret-path .path-node:nth-of-type(3)");
+      const pathButtons = document.querySelectorAll("[data-path-scroll]");
 
       function setPathShift() {
         if (!path || !thirdCard) return;
@@ -219,10 +219,14 @@
       setPathShift();
       window.addEventListener("resize", setPathShift);
 
-      if (path && thirdCard) {
-        thirdCard.addEventListener("click", () => {
-          setPathShift();
-          path.classList.toggle("path-shifted");
+      if (pathButtons.length) {
+        pathButtons.forEach((button) => {
+          button.addEventListener("click", () => {
+            if (!path) return;
+            const direction = Number(button.dataset.pathScroll);
+            setPathShift();
+            path.classList.toggle("path-shifted", direction > 0);
+          });
         });
       }
     </script>

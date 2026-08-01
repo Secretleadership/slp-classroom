@@ -411,7 +411,7 @@
 }
 
 .welcome-centered-hero .slp-logo-type {
-  align-items: center;
+  align-items: stretch;
 }
 
 .welcome-centered-hero .welcome-video-stage {
