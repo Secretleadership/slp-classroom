@@ -110,7 +110,7 @@ const rolePainPoints = {
   },
   "Senior Manager / Functional Head": {
     scope:
-      "Team delivery, stakeholder management, execution, influence upward and downward",
+      "Team delivery, stakeholder management, execution, and influence across stakeholders",
     pain:
       "You lose influence when you keep reporting problems without shaping decisions — and over time that costs your team clarity, speed, and credibility with executives."
   },
@@ -207,7 +207,7 @@ const dimensionCopy = {
 const scoringConfig = {
   q1: {
     id: "Q1",
-    theme: "Managing Up",
+    theme: "Influencer",
     signal: [
       "data",
       "capacity",
@@ -246,7 +246,7 @@ const scoringConfig = {
   },
   q2: {
     id: "Q2",
-    theme: "Managing Down / Influence",
+    theme: "Influencer",
     signal: [
       "silence",
       "hesitation",
@@ -661,7 +661,7 @@ function buildResult() {
   const sharedValue =
     "The value is not more leadership theory. It is the ability to see the signal earlier, ask the sharper question, influence the right conversation, and move before delay becomes expensive. That can save time, protect cash and margin, reduce rework, create clearer direction, and help you keep high-potential people who may otherwise disengage when the business feels unclear, slow, or misaligned.";
   const volumeOneValue =
-    "Volume 1 focuses on Managing Up and Down and Future Shaping. It helps you challenge upward without burning relationship capital, influence your team with more clarity and ownership, read market and customer signals earlier, and test alternative futures before pressure forces the decision.";
+    "Volume 1 focuses on Influencing and Future Shaping. It helps you influence stakeholders without burning relationship capital, create clarity and ownership across the room, read market and customer signals earlier, and test alternative futures before pressure forces the decision.";
   const earlyAccessOffer =
     "Now that you have joined the early access list, you will be considered for limited early access pricing. As a thank you for being one of the first people to see why SLP exists, early access members will stay on the early access list for future volumes too, with lifetime early access pricing opportunities as new SLP volumes open.";
 
@@ -706,7 +706,7 @@ function buildResult() {
       volume_one_value: volumeOneValue,
       what_slp_includes: sharedProduct,
       why_janine_built_slp:
-        "I built the Secret Leadership Playbook because too many capable leaders are carrying decisions they were never properly trained to make. They are expected to read the room, manage up, lead teams, protect performance, shape the future, and make complex calls under pressure, often without a practical system for how to think through those moments.\n\nSLP is my way of making that invisible leadership work visible, practical, and easier to apply.",
+        "I built the Secret Leadership Playbook because too many capable leaders are carrying decisions they were never properly trained to make. They are expected to read the room, influence stakeholders, lead teams, protect performance, shape the future, and make complex calls under pressure, often without a practical system for how to think through those moments.\n\nSLP is my way of making that invisible leadership work visible, practical, and easier to apply.",
       early_access_offer: earlyAccessOffer,
       testimonial:
         "Testimonial placeholder: “Volume 1 helped me put language to decisions I had been carrying quietly. It showed me where I was reporting problems instead of shaping decisions, and where future signals were already visible but not yet being acted on.”",
@@ -758,12 +758,12 @@ function bridgeForProfile(pressure, lowest) {
     return "Future Shaping";
   }
   if (/team|managing|influencing|authority/i.test(pressure || "")) {
-    return "Managing Up and Down";
+    return "Influencer";
   }
   if (lowest === "action_readiness") {
-    return "Both: Managing Up and Down plus Future Shaping";
+    return "Both: Future Shaping plus Influencer";
   }
-  return "Start with the first available SLP volumes: Managing Up and Down and Future Shaping";
+  return "Start with the first available SLP volumes: Future Shaping and Influencer";
 }
 
 function renderResults(result) {

@@ -102,7 +102,7 @@ textarea {
     url("assets/janine-hero-web.jpg");
   background-repeat: no-repeat;
   background-size: cover, auto 100%;
-  background-position: center, left clamp(260px, 28vw, 430px) center;
+  background-position: center, left clamp(10px, 8vw, 120px) center;
 }
 
 .member-hero-panel h1 {
@@ -699,11 +699,17 @@ textarea {
   color: #fff;
 }
 
+.member-hero-panel .member-library {
+  width: min(760px, 100%);
+  margin: 24px auto 0;
+}
+
 .member-back-link {
   position: relative;
   z-index: 1;
   width: fit-content;
   margin-top: 18px;
+  margin-left: max(0px, calc((100% - 760px) / 2));
 }
 
 .paid-preview-card .eyebrow {

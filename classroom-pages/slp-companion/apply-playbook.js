@@ -26,7 +26,7 @@ const requestedTool = new URLSearchParams(window.location.search).get("tool");
 
 const worksheets = {
   "managing-up": {
-    title: "Managing Up and Down",
+    title: "Influencer",
     volume: "Volume 1",
     questions: [
       {
@@ -350,8 +350,9 @@ function renderActions(store) {
 
   actionList.innerHTML = savedActions
     .map((saved) => {
-      const calendarLink = saved.dueDate
-        ? `<a class="calendar-link" download="${calendarFilename(saved)}" href="${calendarDataUrl(saved)}">Download calendar reminder</a>`
+      const calendarLinks = saved.dueDate
+        ? `<a class="calendar-link" target="_blank" rel="noopener" href="${googleCalendarUrl(saved)}">Add to Google Calendar</a>
+           <a class="calendar-link" download="${calendarFilename(saved)}" href="${calendarDataUrl(saved)}">Download calendar reminder</a>`
         : "";
       return `
         <article class="action-item">
@@ -359,7 +360,7 @@ function renderActions(store) {
           <p><strong>${saved.text}</strong></p>
           <div class="action-meta">
             <small>Due: ${saved.dueDate || "No date set"} / Involved: ${saved.owner || "To confirm"}</small>
-            ${calendarLink}
+            ${calendarLinks}
           </div>
         </article>
       `;
@@ -690,7 +691,15 @@ function updateScenarioEmailLink() {
   if (!link) return;
   const subject = encodeURIComponent("My SLP scenario report");
   const body = encodeURIComponent(scenarioReportText());
-  link.href = `mailto:?subject=${subject}&body=${body}`;
+  const recipient = currentProfileEmail();
+  link.href = recipient ? `mailto:${recipient}?subject=${subject}&body=${body}` : "#";
+}
+
+function emailScenarioReport(event) {
+  event.preventDefault();
+  saveScenario();
+  updateScenarioEmailLink();
+  openEmailLink(event.currentTarget);
 }
 
 function horizonKey() {
@@ -999,7 +1008,28 @@ function updateHorizonEmailLink() {
   if (!link) return;
   const subject = encodeURIComponent("My SLP 3 Horizon Tension Map");
   const body = encodeURIComponent(horizonReportText());
-  link.href = `mailto:?subject=${subject}&body=${body}`;
+  const recipient = currentProfileEmail();
+  link.href = recipient ? `mailto:${recipient}?subject=${subject}&body=${body}` : "#";
+}
+
+function emailHorizonReport(event) {
+  event.preventDefault();
+  saveHorizonMap();
+  updateHorizonEmailLink();
+  openEmailLink(event.currentTarget);
+}
+
+function currentProfileEmail() {
+  return String(companionState.profile?.email || "").trim();
+}
+
+function openEmailLink(link) {
+  if (!currentProfileEmail()) {
+    window.alert("Please enter your email address in your Companion profile first.");
+    return;
+  }
+  if (!link.href || link.getAttribute("href") === "#") return;
+  window.location.href = link.href;
 }
 
 function renderHorizonTool() {
@@ -1267,6 +1297,19 @@ function calendarDataUrl(action) {
   return `data:text/calendar;charset=utf-8,${encodeURIComponent(ics)}`;
 }
 
+function googleCalendarUrl(action) {
+  const date = calendarDate(action.dueDate);
+  const endDate = calendarEndDate(action.dueDate);
+  const title = `SLP action: ${action.text || "Leadership action"}`;
+  const description = `SLP Companion action commitment.\nPeople involved: ${action.owner || "To confirm"}`;
+  return [
+    "https://calendar.google.com/calendar/render?action=TEMPLATE",
+    `text=${encodeURIComponent(title)}`,
+    `dates=${date}/${endDate}`,
+    `details=${encodeURIComponent(description)}`
+  ].join("&");
+}
+
 function saveWorksheet(event) {
   event.preventDefault();
   const worksheet = worksheets[companionState.activeWorksheet];
@@ -1429,7 +1472,7 @@ document.querySelector("[data-save-scenario-action]").addEventListener("click", 
 
 document.querySelector("[data-download-scenario]").addEventListener("click", downloadScenarioReport);
 
-document.querySelector("[data-email-scenario]").addEventListener("click", updateScenarioEmailLink);
+document.querySelector("[data-email-scenario]").addEventListener("click", emailScenarioReport);
 
 document.querySelector("[data-scenario-insight]").addEventListener("input", saveScenario);
 
@@ -1439,7 +1482,7 @@ document.querySelector("[data-save-horizon]").addEventListener("click", saveHori
 
 document.querySelector("[data-download-horizon]").addEventListener("click", downloadHorizonReport);
 
-document.querySelector("[data-email-horizon]").addEventListener("click", updateHorizonEmailLink);
+document.querySelector("[data-email-horizon]").addEventListener("click", emailHorizonReport);
 
 document.querySelectorAll(
   "[data-horizon-title], [data-horizon-team], [data-horizon-budget-mode], [data-horizon-currency], [data-horizon-budget], [data-horizon-timeframe], [data-horizon-period-budget], [data-horizon-action-text], [data-horizon-action-due], [data-horizon-action-owner]"
