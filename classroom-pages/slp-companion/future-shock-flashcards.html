@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SLP Flashcards — Future Shocks</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/elms-sans@latest/index.css" />
+<style>
+  :root {
+    --purple:       #662a8a;
+    --lime:         #a7be56;
+    --yellow:       #d9e021;
+    --cream:        #f0eac9;
+    --purple-deep:  #260240;
+    --purple-dark:  #170226;
+    --olive:        #45582b;
+    --olive-dark:   #162501;
+    --white:        #ffffff;
+    --text:         #170226;
+    --text-muted:   #45582b;
+    --border:       rgba(102,42,138,0.22);
+    --purple-light: rgba(102,42,138,0.10);
+    --card-bg:      #ffffff;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    min-height: 100vh;
+    background: var(--cream);
+    font-family: 'Elms Sans', 'Helvetica Neue', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2.5rem 1.25rem 4rem;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .screen { display: none; width: 100%; max-width: 480px; }
+  .screen.active { display: flex; flex-direction: column; align-items: center; }
+
+  /* ── LOGO ── */
+  .logo { text-align: center; margin-bottom: 2rem; width: 100%; max-width: 300px; }
+  .logo svg { width: 100%; height: auto; display: block; }
+
+  /* ── INTRO CARD ── */
+  .intro-card {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--purple);
+    background: var(--card-bg);
+    padding: 2rem 1.75rem;
+    margin-bottom: 2rem;
+    border-radius: 2px;
+  }
+  .intro-eyebrow {
+    font-family: 'Anton', sans-serif; font-size: 10px;
+    letter-spacing: .20em; text-transform: uppercase;
+    color: var(--lime); margin-bottom: 1rem;
+  }
+  .intro-heading {
+    font-family: 'Anton', sans-serif; font-size: 24px;
+    text-transform: uppercase; color: var(--purple-deep);
+    line-height: 1.15; margin-bottom: 1.5rem; letter-spacing: .02em;
+  }
+  .intro-body { font-size: 15px; color: var(--text); line-height: 1.8; margin-bottom: 1rem; }
+  .intro-body strong { font-weight: 600; color: var(--purple-deep); }
+  .intro-list {
+    list-style: none; margin: .75rem 0 1.25rem;
+    display: flex; flex-direction: column; gap: .65rem;
+  }
+  .intro-list li {
+    font-size: 15px; color: var(--text); line-height: 1.7;
+    padding-left: 1.5rem; position: relative;
+  }
+  .intro-list li::before { content:'—'; position:absolute; left:0; color:var(--purple); font-size:13px; top:2px; }
+  .intro-note {
+    font-size: 14px; color: var(--text-muted); line-height: 1.7;
+    border-top: 1px solid var(--border); padding-top: 1rem; margin-top: 1rem;
+  }
+  .intro-assume {
+    font-family:'Anton',sans-serif; font-size:12px;
+    letter-spacing:.10em; text-transform:uppercase;
+    color:var(--purple); margin:.75rem 0 .4rem;
+  }
+
+  /* ── BUTTONS ── */
+  .btn {
+    font-family: 'Anton', sans-serif; font-size: 12px;
+    letter-spacing: .14em; text-transform: uppercase;
+    padding: 13px 32px; border: 1.5px solid var(--purple);
+    background: transparent; color: var(--purple);
+    cursor: pointer; transition: background .2s, color .2s, border-color .2s;
+    min-height: 46px; border-radius: 2px;
+    display: inline-flex; align-items: center; justify-content: center;
+    text-decoration: none;
+  }
+  .btn:hover, .btn:active { background: var(--purple); color: var(--white); }
+  .btn.primary { background: var(--purple); color: var(--white); }
+  .btn.primary:hover { background: var(--purple-deep); border-color: var(--purple-deep); }
+  .btn:disabled { opacity: .25; pointer-events: none; }
+  .intro-actions,
+  .final-actions {
+    margin-top: 2rem;
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  /* ── COUNTER ── */
+  .counter {
+    font-family: 'Anton', sans-serif; font-size: 11px;
+    letter-spacing: .16em; text-transform: uppercase;
+    color: var(--text-muted); margin-bottom: 1.25rem; align-self: flex-start;
+  }
+
+  /* ── SCENE & CARD ── */
+  .scene { width: 100%; margin-bottom: 1.5rem; }
+
+  /* Grid trick: both faces in same cell — card grows with tallest face naturally */
+  .card {
+    width: 100%;
+    display: grid;
+    grid-template-areas: "stack";
+  }
+
+  .face {
+    grid-area: stack;
+    width: 100%;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--purple);
+    padding: 2rem 1.75rem 1.75rem;
+    display: flex; flex-direction: column;
+    border-radius: 2px;
+    box-shadow: 0 2px 16px rgba(38,2,64,.07);
+    transition: opacity .35s ease, transform .35s ease;
+  }
+  @media (max-width: 480px) { .face { padding: 1.5rem 1.25rem 1.25rem; } }
+
+  .face.front { opacity: 1; transform: translateX(0); pointer-events: all; visibility: visible; }
+  .face.back {
+    border-left-color: var(--lime);
+    opacity: 0; pointer-events: none;
+    transform: translateX(12px);
+    visibility: hidden;
+  }
+
+  .card.flipped .face.front { opacity: 0; pointer-events: none; transform: translateX(-12px); visibility: hidden; }
+  .card.flipped .face.back  { opacity: 1; pointer-events: all;  transform: translateX(0); visibility: visible; }
+
+  /* decorative corner */
+  .face::before {
+    content: ''; position: absolute; top: 16px; right: 20px;
+    width: 18px; height: 18px;
+    border-top: 1.5px solid var(--lime);
+    border-right: 1.5px solid var(--lime);
+    opacity: .45;
+  }
+
+  /* ── FLAG ── */
+  .flag {
+    display: inline-block; font-family: 'Anton', sans-serif;
+    font-size: 9px; letter-spacing: .15em; text-transform: uppercase;
+    background: var(--purple); color: var(--white);
+    padding: 3px 10px; margin-bottom: 1.25rem; align-self: flex-start;
+  }
+  .face.back .flag { background: var(--lime); color: var(--olive-dark); }
+
+  .card-category {
+    font-family: 'Anton', sans-serif; font-size: 10px;
+    letter-spacing: .20em; text-transform: uppercase;
+    color: var(--lime); margin-bottom: .4rem;
+  }
+  .card-title {
+    font-family: 'Anton', sans-serif; font-size: clamp(22px,5vw,28px);
+    text-transform: uppercase; color: var(--purple-deep);
+    line-height: 1.1; letter-spacing: .02em; margin-bottom: 1.25rem;
+  }
+  .card-scenario {
+    font-size: 15px; color: var(--text); line-height: 1.82;
+    margin-bottom: 1.5rem; flex-grow: 1; white-space: pre-line;
+  }
+
+  /* ── SEE OPTIONS WRAP ── */
+  .see-options-wrap { margin-top: auto; }
+  .see-options-hint {
+    font-family: 'Anton', sans-serif; font-size: 11px;
+    color: var(--text-muted); letter-spacing: .10em; text-transform: uppercase;
+    margin-bottom: .75rem; opacity: .65;
+  }
+
+  /* ── CHOICES — staggered fade ── */
+  .choices {
+    display: flex; flex-direction: column; gap: 10px;
+    pointer-events: none;
+  }
+
+  .choice-btn {
+    width: 100%; padding: 14px 16px;
+    border: 1px solid var(--border);
+    background: rgba(102,42,138,.06);
+    color: var(--text);
+    font-family: 'Elms Sans', 'Helvetica Neue', sans-serif;
+    font-size: 14px; text-align: left; cursor: pointer;
+    transition: border-color .2s, background .2s, transform .15s;
+    line-height: 1.6; border-radius: 2px;
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  .choice-btn:hover {
+    border-color: var(--purple);
+    background: rgba(102,42,138,.12);
+    transform: translateY(0) !important;
+  }
+  .choice-btn:active { transform: scale(.98) !important; }
+
+  .choice-btn.visible {
+    animation: fadeSlideIn .35s ease forwards;
+  }
+  @keyframes fadeSlideIn {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .choices.interactive { pointer-events: all; }
+
+  .choice-btn .choice-label {
+    font-family: 'Anton', sans-serif; font-size: 12px;
+    letter-spacing: .10em; text-transform: uppercase;
+    color: var(--purple); margin-right: 8px;
+  }
+
+  /* ── BACK / INSIGHTS ── */
+  .back-header {
+    margin-bottom: .5rem;
+  }
+  .back-sub {
+    font-family: 'Anton', sans-serif; font-size: 10px;
+    letter-spacing: .18em; text-transform: uppercase;
+    color: var(--purple); margin-bottom: .25rem;
+  }
+
+  .insights { display: flex; flex-direction: column; gap: 10px; flex-grow: 1; overflow-y: auto; }
+
+  .insight-block {
+    padding: 13px 15px;
+    border: 1px solid var(--border);
+    background: rgba(102,42,138,.04);
+    transition: opacity .25s, border-color .25s, background .25s;
+    border-radius: 2px;
+  }
+  .insight-block.chosen {
+    border-left: 3px solid var(--purple);
+    background: rgba(102,42,138,.10);
+    border-color: rgba(102,42,138,.35);
+  }
+  .insight-block.unchosen { opacity: .28; }
+
+  .insight-label {
+    font-family: 'Anton', sans-serif; font-size: 11px;
+    letter-spacing: .13em; text-transform: uppercase;
+    color: var(--lime); margin-bottom: 5px;
+  }
+  .insight-block.chosen .insight-label { color: var(--purple); }
+  .insight-text { font-size: 13px; color: var(--text); line-height: 1.7; }
+
+  .back-hint {
+    font-family: 'Anton', sans-serif; font-size: 11px;
+    color: var(--text-muted); letter-spacing: .10em; text-transform: uppercase;
+    margin-top: 1rem; text-align: center; opacity: .55; cursor: pointer;
+    transition: opacity .2s;
+  }
+  .back-hint:hover { opacity: 1; }
+
+  /* ── NAV + DOTS ── */
+  .nav { display: flex; gap: 10px; width: 100%; justify-content: space-between; }
+  .nav .btn { flex: 1; }
+
+  .dots {
+    display: flex; gap: 6px; margin-top: 1.25rem;
+    flex-wrap: wrap; justify-content: center;
+  }
+  .dot {
+    width: 5px; height: 5px; border-radius: 50%;
+    background: rgba(102,42,138,.18);
+    transition: background .25s, transform .25s;
+  }
+  .dot.active { background: var(--purple); transform: scale(1.4); }
+  .dot.answered { background: var(--lime); }
+
+  /* ── FINAL RESULT ── */
+  .result-card {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--lime);
+    background: var(--card-bg);
+    padding: 2rem 1.75rem;
+    margin-bottom: 1.5rem;
+    border-radius: 2px;
+    box-shadow: 0 2px 16px rgba(38,2,64,.07);
+  }
+  .result-pattern {
+    font-family: 'Anton', sans-serif; font-size: 11px;
+    letter-spacing: .20em; text-transform: uppercase;
+    color: var(--lime); margin-bottom: .5rem;
+  }
+  .result-type {
+    font-family: 'Anton', sans-serif; font-size: clamp(20px,5vw,28px);
+    text-transform: uppercase; color: var(--purple-deep);
+    letter-spacing: .02em; line-height: 1.1; margin-bottom: 1.25rem;
+  }
+  .result-body {
+    font-size: 15px; color: var(--text); line-height: 1.82; margin-bottom: 1.25rem;
+  }
+
+  /* ── YOUR MOVE block on final ── */
+  .result-move-block {
+    margin-top: 1.25rem; padding-top: 1.25rem;
+    border-top: 1px solid var(--border);
+  }
+  .result-section-label {
+    font-family: 'Anton', sans-serif; font-size: 10px;
+    letter-spacing: .18em; text-transform: uppercase;
+    color: var(--purple); margin-bottom: .65rem;
+  }
+  .result-moves {
+    list-style: none; display: flex; flex-direction: column; gap: 6px;
+    margin-bottom: 1.25rem;
+  }
+  .result-moves li {
+    font-size: 14px; color: var(--text); line-height: 1.65;
+    padding-left: 1.4rem; position: relative;
+    opacity: 0; animation: fadeSlideIn .4s ease forwards;
+  }
+  .result-moves li::before { content:'→'; position:absolute; left:0; color:var(--purple); font-size:12px; top:2px; }
+
+  .result-question {
+    font-size: 15px; color: var(--purple-deep);
+    font-style: italic; font-weight: 600; line-height: 1.65;
+    padding: 14px 16px;
+    background: rgba(102,42,138,.08);
+    border-left: 3px solid var(--purple);
+    border-radius: 2px;
+  }
+
+  .result-tally {
+    display: flex; gap: 24px;
+    border-top: 1px solid var(--border);
+    padding-top: 1.25rem; margin-top: 1.25rem;
+  }
+  .tally-item { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  .tally-count {
+    font-family: 'Anton', sans-serif; font-size: 30px;
+    color: var(--purple); line-height: 1;
+  }
+  .tally-label {
+    font-family: 'Anton', sans-serif; font-size: 10px;
+    letter-spacing: .16em; text-transform: uppercase; color: var(--text-muted);
+  }
+
+  .closing {
+    width: 100%;
+    border-top: 1px solid var(--border);
+    padding-top: 1.5rem; margin-top: .5rem;
+    font-size: 15px; color: var(--text-muted);
+    line-height: 2; font-style: italic; text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<script>
+const LOGO = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="310 290 1360 500"><defs><style>.c2{fill:#a7be56}.c3{fill:#662a8a}</style></defs><g><g><path class="c3" d="M320.64,779.4v-299.27h79.07c16.55,0,29.67,3.68,39.36,11.05,9.69,7.37,16.64,17.85,20.83,31.46,4.19,13.6,6.29,29.82,6.29,48.63s-1.76,33.92-5.27,47.36c-3.51,13.43-9.78,23.83-18.79,31.2s-21.79,11.05-38.34,11.05h-24.32v118.52h-58.83ZM379.48,607.15h3.4c11.11,0,17.91-3.12,20.4-9.35,2.49-6.23,3.74-15.42,3.74-27.55,0-11.33-1.22-20.09-3.66-26.27-2.44-6.18-8.19-9.27-17.26-9.27h-6.63v72.44Z"/><path class="c3" d="M485.07,779.4v-299.27h59.85v248.26h61.55v51.01h-121.41Z"/><path class="c3" d="M615.33,779.4l28.91-299.27h101.51l28.4,299.27h-56.62l-4.25-48.29h-36.05l-3.74,48.29h-58.15ZM681.47,683.33h27.21l-13.09-152.19h-2.72l-11.39,152.19Z"/><path class="c3" d="M820.57,779.4v-98.45l-47.78-200.82h59.34l16.66,101.34,16.66-101.34h59.17l-47.61,200.82v98.45h-56.45Z"/></g><g><path class="c2" d="M939.77,779.4v-299.27h81.11c21.77,0,37.61,5.3,47.53,15.9,9.92,10.6,14.88,28.08,14.88,52.46v13.09c0,14.06-2.52,25.45-7.57,34.18-5.05,8.73-12.73,14.45-23.04,17.17,13.49,3.4,22.53,11.37,27.12,23.89,4.59,12.53,6.89,27.8,6.89,45.83,0,19.38-1.81,36.33-5.44,50.84-3.63,14.51-10.2,25.79-19.72,33.84-9.52,8.05-23.07,12.07-40.64,12.07h-81.11ZM998.26,592.87h12.24c5.55,0,9.12-2.15,10.71-6.46,1.59-4.31,2.38-9.46,2.38-15.47v-30.1c0-9.63-4.25-14.45-12.75-14.45h-12.58v66.49ZM1004.21,726.69c15.53,0,23.3-7.37,23.3-22.11v-37.41c0-8.5-1.28-15.22-3.83-20.15s-7.34-7.4-14.37-7.4h-11.05v86.72c2.49.23,4.48.34,5.95.34Z"/><path class="c2" d="M1177.82,782.12c-23.92,0-42.2-7.23-54.84-21.68-12.64-14.45-18.96-35.34-18.96-62.66v-142.15c0-25.62,6.26-45.06,18.79-58.32,12.53-13.26,30.86-19.89,55.01-19.89s42.48,6.63,55.01,19.89c12.53,13.26,18.79,32.71,18.79,58.32v142.15c0,27.32-6.32,48.21-18.96,62.66-12.64,14.45-30.92,21.68-54.84,21.68ZM1178.33,727.03c9.07,0,13.6-8.78,13.6-26.36v-146.07c0-14.74-4.42-22.11-13.26-22.11-9.98,0-14.96,7.54-14.96,22.62v145.9c0,9.29,1.13,15.96,3.4,19.98,2.27,4.02,6.01,6.04,11.22,6.04Z"/><path class="c2" d="M1347.18,782.12c-23.92,0-42.2-7.23-54.84-21.68-12.64-14.45-18.96-35.34-18.96-62.66v-142.15c0-25.62,6.26-45.06,18.79-58.32,12.53-13.26,30.86-19.89,55.01-19.89s42.48,6.63,55.01,19.89c12.53,13.26,18.79,32.71,18.79,58.32v142.15c0,27.32-6.32,48.21-18.96,62.66-12.64,14.45-30.92,21.68-54.84,21.68ZM1347.69,727.03c9.07,0,13.6-8.78,13.6-26.36v-146.07c0-14.74-4.42-22.11-13.26-22.11-9.98,0-14.96,7.54-14.96,22.62v145.9c0,9.29,1.13,15.96,3.4,19.98,2.27,4.02,6.01,6.04,11.22,6.04Z"/><path class="c2" d="M1445.13,779.4v-299.27h59.17v119.88l27.89-119.88h60.19l-33.5,137.05,40.47,162.22h-62.07l-32.65-144.88v144.88h-59.51Z"/></g><g><path class="c2" d="M328.75,366.77v-55.16h-8.11v-13.11h29.87v13.11h-8.11v55.16h-13.65Z"/><path class="c2" d="M354.31,366.77v-68.27h13.58v24.4h6.44v-24.4h13.58v68.27h-13.58v-30.95h-6.44v30.95h-13.58Z"/><path class="c2" d="M393.95,366.77v-68.27h27.31v13.19h-13.42v13.3h12.88v12.84h-12.88v15.63h14.31v13.3h-28.2Z"/><path class="c2" d="M461.48,367.39c-6.23,0-10.72-1.55-13.48-4.65-2.75-3.1-4.13-8.04-4.13-14.82v-6.67h13.5v8.53c0,1.58.24,2.81.72,3.7.48.89,1.31,1.34,2.5,1.34s2.1-.36,2.58-1.09c.48-.72.72-1.91.72-3.57,0-2.09-.21-3.85-.62-5.26-.41-1.41-1.13-2.75-2.15-4.03-1.02-1.28-2.44-2.77-4.25-4.48l-6.13-5.82c-4.58-4.32-6.87-9.26-6.87-14.82s1.35-10.25,4.05-13.3c2.7-3.05,6.61-4.58,11.73-4.58,6.26,0,10.7,1.67,13.32,5,2.62,3.34,3.94,8.4,3.94,15.2h-13.89v-4.69c0-.93-.27-1.65-.8-2.17-.53-.52-1.25-.78-2.15-.78-1.09,0-1.88.3-2.39.91-.5.61-.76,1.39-.76,2.35s.26,1.99.78,3.1c.52,1.11,1.54,2.39,3.06,3.84l7.87,7.56c1.58,1.5,3.03,3.08,4.34,4.75,1.32,1.67,2.38,3.61,3.18,5.82.8,2.21,1.2,4.91,1.2,8.09,0,6.41-1.18,11.44-3.55,15.07-2.37,3.63-6.48,5.45-12.35,5.45Z"/><path class="c2" d="M481.93,366.77v-68.27h27.31v13.19h-13.42v13.3h12.88v12.84h-12.88v15.63h14.31v13.3h-28.2Z"/><path class="c2" d="M530.53,367.39c-4.94,0-8.92-1.54-11.93-4.62-3.01-3.08-4.52-7.38-4.52-12.92v-31.5c0-6.62,1.31-11.69,3.94-15.2,2.62-3.52,6.9-5.28,12.82-5.28,3.23,0,6.11.6,8.63,1.78,2.52,1.19,4.51,2.97,5.95,5.33,1.45,2.37,2.17,5.35,2.17,8.94v11.79h-13.58v-10.08c0-2.04-.26-3.42-.78-4.13-.52-.71-1.32-1.07-2.4-1.07-1.27,0-2.12.46-2.56,1.38-.44.92-.66,2.14-.66,3.67v34.17c0,1.89.28,3.22.83,4,.56.78,1.35,1.16,2.39,1.16,1.16,0,1.98-.48,2.46-1.44.48-.96.72-2.2.72-3.72v-12.3h13.73v12.92c0,6-1.51,10.35-4.54,13.05-3.03,2.7-7.25,4.05-12.68,4.05Z"/><path class="c2" d="M552.29,366.77v-68.27h20.95c3.49,0,6.13.8,7.91,2.39,1.78,1.59,2.98,3.81,3.59,6.67.61,2.86.91,6.21.91,10.07s-.47,6.7-1.42,8.92c-.94,2.22-2.72,3.76-5.33,4.62,2.15.44,3.65,1.51,4.52,3.2.87,1.69,1.3,3.89,1.3,6.57v25.83h-13.46v-26.73c0-1.99-.41-3.23-1.22-3.7-.81-.48-2.13-.72-3.94-.72v31.15h-13.81ZM566.17,323.79h3.3c1.89,0,2.83-2.06,2.83-6.17,0-2.66-.21-4.41-.62-5.24-.41-.83-1.19-1.24-2.33-1.24h-3.18v12.65Z"/><path class="c2" d="M590.15,366.77v-68.27h27.31v13.19h-13.42v13.3h12.88v12.84h-12.88v15.63h14.31v13.3h-28.2Z"/><path class="c2" d="M628.7,366.77v-55.16h-8.11v-13.11h29.87v13.11h-8.11v55.16h-13.65Z"/><path class="c2" d="M322.89,446.2v-68.27h13.65v56.63h14.04v11.64h-27.69Z"/><path class="c2" d="M354.47,446.2v-68.27h27.31v13.19h-13.42v13.3h12.88v12.84h-12.88v15.63h14.31v13.3h-28.2Z"/><path class="c2" d="M385.3,446.2l6.59-68.27h23.16l6.48,68.27h-12.92l-.97-11.02h-8.22l-.85,11.02h-13.27ZM400.39,424.29h6.21l-2.99-34.72h-.62l-2.6,34.72Z"/><path class="c2" d="M425.72,446.2v-68.27h18.77c4.91,0,8.61,1.36,11.09,4.09,2.48,2.73,3.72,6.72,3.72,11.97v31.96c0,6.46-1.13,11.46-3.39,14.97-2.26,3.52-6.23,5.28-11.89,5.28h-18.31ZM439.45,434.14h2.37c2.51,0,3.76-1.22,3.76-3.65v-35.22c0-2.27-.3-3.74-.91-4.4-.61-.66-1.84-.99-3.7-.99h-1.51v44.26Z"/><path class="c2" d="M464.9,446.2v-68.27h27.31v13.19h-13.42v13.3h12.88v12.84h-12.88v15.63h14.31v13.3h-28.2Z"/><path class="c2" d="M497.6,446.2v-68.27h20.95c3.49,0,6.13.8,7.91,2.39,1.78,1.59,2.98,3.81,3.59,6.67.61,2.86.91,6.21.91,10.07s-.47,6.7-1.42,8.92c-.94,2.22-2.72,3.76-5.33,4.62,2.15.44,3.65,1.51,4.52,3.2.87,1.69,1.3,3.89,1.3,6.57v25.83h-13.46v-26.73c0-1.99-.41-3.23-1.22-3.7-.81-.48-2.13-.72-3.94-.72v31.15h-13.81ZM511.48,403.23h3.3c1.89,0,2.83-2.06,2.83-6.17,0-2.66-.21-4.41-.62-5.24-.41-.83-1.19-1.24-2.33-1.24h-3.18v12.65Z"/><path class="c2" d="M551.67,446.82c-6.23,0-10.72-1.55-13.48-4.65-2.75-3.1-4.13-8.04-4.13-14.82v-6.67h13.5v8.53c0,1.58.24,2.81.72,3.7.48.89,1.31,1.34,2.5,1.34s2.1-.36,2.58-1.09c.48-.72.72-1.91.72-3.57,0-2.09-.21-3.85-.62-5.26-.41-1.41-1.13-2.75-2.15-4.03-1.02-1.28-2.44-2.77-4.25-4.48l-6.13-5.82c-4.58-4.32-6.87-9.26-6.87-14.82s1.35-10.25,4.05-13.3c2.7-3.05,6.61-4.58,11.73-4.58,6.26,0,10.7,1.67,13.32,5,2.62,3.34,3.94,8.4,3.94,15.2h-13.89v-4.69c0-.93-.27-1.65-.8-2.17-.53-.52-1.25-.78-2.15-.78-1.09,0-1.88.3-2.39.91-.5.61-.76,1.39-.76,2.35s.26,1.99.78,3.1c.52,1.11,1.54,2.39,3.06,3.84l7.87,7.56c1.58,1.5,3.03,3.08,4.34,4.75s2.38,3.61,3.18,5.82c.8,2.21,1.2,4.91,1.2,8.09,0,6.41-1.18,11.44-3.55,15.07-2.37,3.63-6.48,5.45-12.35,5.45Z"/><path class="c2" d="M572.11,446.2v-68.27h13.58v24.4h6.44v-24.4h13.58v68.27h-13.58v-30.95h-6.44v30.95h-13.58Z"/><path class="c2" d="M611.13,446.2v-68.27h13.19v68.27h-13.19Z"/><path class="c2" d="M629.75,446.2v-68.27h18.04c3.78,0,6.77.84,8.98,2.52,2.21,1.68,3.79,4.07,4.75,7.18.96,3.1,1.44,6.8,1.44,11.09s-.4,7.74-1.2,10.8c-.8,3.06-2.23,5.44-4.29,7.12-2.06,1.68-4.97,2.52-8.75,2.52h-5.55v27.04h-13.42ZM643.17,406.91h.78c2.53,0,4.09-.71,4.65-2.13.57-1.42.85-3.52.85-6.28,0-2.59-.28-4.58-.83-5.99-.56-1.41-1.87-2.11-3.94-2.11h-1.51v16.52Z"/></g></g></svg>`;
+</script>
+
+<!-- ── INTRO ── -->
+<div id="intro" class="screen active">
+  <div class="logo" id="logo-intro"></div>
+  <div class="intro-card">
+    <div class="intro-eyebrow">Before You Begin, read</div>
+    <div class="intro-heading">How to Use<br>This Deck</div>
+    <p class="intro-body">These scenarios are hypothetical, but treat each one as if it is happening inside your current leadership environment. The point is not to find the perfect answer &mdash; it is to notice whether your first instinct is to control, influence, or accept what cannot be controlled.</p>
+    <p class="intro-body" style="margin-top:.75rem;"><strong>When you read each flashcard:</strong></p>
+    <ul class="intro-list">
+      <li>Select your immediate response — not all possible actions. This reveals your default decision pattern under pressure.</li>
+      <li>Answer based on your actual company context — not what should happen in theory.</li>
+      <li>Consider what is within your control, what you can influence, and what you need to navigate.</li>
+      <li>Apply your thinking to your current reality — even if you don't hold full decision-making authority.</li>
+    </ul>
+    <div class="intro-assume">Assume:</div>
+    <p class="intro-note">This is happening here. This week. With your current constraints.</p>
+  </div>
+  <button class="btn primary" onclick="start()">Begin →</button>
+</div>
+
+<!-- ── CARD SCREEN ── -->
+<div id="card-screen" class="screen">
+  <div class="logo" style="margin-bottom:1.5rem;" id="logo-card"></div>
+  <div class="counter" id="counter">1 / 9</div>
+
+  <div class="scene">
+    <div class="card" id="card">
+
+      <div class="face front">
+        <div class="flag" id="flag-front">Category 1</div>
+        <div class="card-category" id="card-cat"></div>
+        <div class="card-title" id="card-title"></div>
+        <div class="card-scenario" id="card-scenario"></div>
+
+        <div class="see-options-wrap" id="see-options-wrap">
+          <div class="see-options-hint">Ready to respond?</div>
+          <button class="btn primary" id="see-options-btn" onclick="revealChoices()">See your options →</button>
+        </div>
+
+        <div class="choices" id="choices"></div>
+      </div>
+
+      <div class="face back">
+        <div class="flag" id="flag-back">Category 1</div>
+        <div class="back-header">
+          <div class="back-sub">What your choice reveals</div>
+          <div class="card-title" id="back-title" style="font-size:18px;margin-bottom:.75rem;"></div>
+        </div>
+        <div class="insights" id="insights"></div>
+        <div class="back-hint" onclick="unflip()">← back to question</div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="dots" id="dots"></div>
+  <div class="nav" style="margin-top:1.25rem;">
+    <button class="btn" id="btn-prev" onclick="prev()">← Prev</button>
+    <button class="btn primary" id="btn-next" onclick="next()">Next →</button>
+  </div>
+</div>
+
+<!-- ── FINAL ── -->
+<div id="final" class="screen">
+  <div class="logo" style="margin-bottom:1.5rem;" id="logo-final"></div>
+  <div class="result-card">
+    <div class="result-pattern">Your Pattern Under Pressure</div>
+    <div class="result-type" id="result-type"></div>
+    <div class="result-body" id="result-body"></div>
+    <div class="result-move-block">
+      <div class="result-section-label">Your Move</div>
+      <ul class="result-moves" id="result-moves"></ul>
+      <div class="result-section-label" style="margin-bottom:.6rem;">Your Question</div>
+      <div class="result-question" id="result-question"></div>
+    </div>
+    <div class="result-tally" id="result-tally"></div>
+  </div>
+  <div class="closing">
+    When pressure rises —<br>
+    do you protect what exists,<br>
+    stabilise what's breaking,<br>
+    or reshape what's coming?
+  </div>
+  <div style="margin-top:2rem;display:flex;gap:10px;">
+    <button class="btn" onclick="restart()">Restart</button>
+  </div>
+</div>
+
+<script>
+// ── DATA ──────────────────────────────────────────────────────────────────────
+const data = [
+  { category:"Market & Economic Shock", flag:"Category 1", title:"Currency Shock",
+    scenario:"Currency drops 10% overnight. Import costs spike. Margins collapse.\n\nWhere do you act first?",
+    choices:[
+      {label:"A",text:"Adjust pricing and cut costs immediately to protect margins.",insight:"You protect the business. Strong in control, but may miss structural exposure."},
+      {label:"B",text:"Re-negotiate supplier terms and reset customer expectations.",insight:"You stabilise the system. You manage trade-offs, but may delay bigger shifts."},
+      {label:"C",text:"Reassess pricing model, currency exposure, and product mix.",insight:"You reshape the game. You think long-term, but risk slower immediate response."}
+    ]},
+  { category:"Market & Economic Shock", flag:"Category 1", title:"Tariff Shock",
+    scenario:"A new 25% import tariff is introduced overnight on your core product line.\n\nWhere do you act first?",
+    choices:[
+      {label:"A",text:"Increase prices and absorb some margin loss to stay competitive.",insight:"You defend position. Fast response, but exposed if tariffs persist."},
+      {label:"B",text:"Shift volumes, renegotiate with suppliers, and explore alternative sourcing.",insight:"You adapt the system. You balance cost and continuity, but within current constraints."},
+      {label:"C",text:"Redesign your supply chain and localise production to reduce dependency.",insight:"You reposition structurally. You reduce risk long-term, but with execution complexity."}
+    ]},
+  { category:"Market & Economic Shock", flag:"Category 1", title:"AI Competitor Shock",
+    scenario:"A competitor launches an AI-driven product at half your price.\n\nWhere do you act first?",
+    choices:[
+      {label:"A",text:"Adjust pricing and push sales to defend market share.",insight:"You react to pressure. You defend share, but risk margin erosion."},
+      {label:"B",text:"Strengthen your value proposition and reposition messaging.",insight:"You compete strategically. You reposition, but may still be exposed structurally."},
+      {label:"C",text:"Reassess your offering, cost structure, and long-term competitive model.",insight:"You redefine your edge. You think ahead, but transformation takes time."}
+    ]},
+  { category:"People & Leadership Shock", flag:"Category 2", title:"Leadership Exit Shock",
+    scenario:"Your COO resigns suddenly. No ready successor. Operations are exposed.\n\nWhere do you act first?",
+    choices:[
+      {label:"A",text:"Step in directly to stabilise operations.",insight:"You take control. Immediate stability, but creates dependency."},
+      {label:"B",text:"Appoint an interim leader and support the team through transition.",insight:"You manage continuity. Balanced approach, but may mask deeper gaps."},
+      {label:"C",text:"Reassess your succession pipeline and leadership structure.",insight:"You build resilience. Long-term strength, but doesn't solve today's gap alone."}
+    ]},
+  { category:"People & Leadership Shock", flag:"Category 2", title:"Talent Loss Shock",
+    scenario:"Two top performers resign in the same week.\n\nWhere do you act first?",
+    choices:[
+      {label:"A",text:"Redistribute workload and maintain delivery.",insight:"You protect output. Delivery continues, but root causes remain."},
+      {label:"B",text:"Engage the team to understand risks and stabilise morale.",insight:"You stabilise the team. You address morale, but may miss systemic issues."},
+      {label:"C",text:"Reassess retention strategy, leadership quality, and growth pathways.",insight:"You address the system. You fix deeper drivers, but slower short-term impact."}
+    ]},
+  { category:"People & Leadership Shock", flag:"Category 2", title:"Alignment Breakdown",
+    scenario:"Your leadership team cannot align on the new strategy.\n\nWhere do you act first?",
+    choices:[
+      {label:"A",text:"Make the call and push forward.",insight:"You drive decisiveness. Speed over alignment, risk of silent resistance."},
+      {label:"B",text:"Facilitate alignment sessions to bring the team together.",insight:"You build alignment. Inclusion, but may prolong indecision."},
+      {label:"C",text:"Redefine decision rights, incentives, and strategic clarity.",insight:"You fix decision architecture. Sustainable alignment, but requires deeper change."}
+    ]},
+  { category:"Power, Capital & External Shock", flag:"Category 3", title:"Supply Chain Shock",
+    scenario:"Tariffs increase and global supply delays extend delivery timelines by 3 months.\n\nWhere do you act first?",
+    choices:[
+      {label:"A",text:"Communicate delays and adjust delivery expectations.",insight:"You manage expectations. Transparency, but reactive."},
+      {label:"B",text:"Reprioritise customers and reallocate limited supply.",insight:"You optimise under constraint. Strong prioritisation, but still exposed."},
+      {label:"C",text:"Redesign your supply chain and sourcing strategy.",insight:"You reduce dependency. Strategic shift, but complex to execute."}
+    ]},
+  { category:"Power, Capital & External Shock", flag:"Category 3", title:"Investor Pressure Shock",
+    scenario:"Your lead investor demands a strategic pivot — or threatens to withdraw funding.\n\nWhere do you act first?",
+    choices:[
+      {label:"A",text:"Adjust plans to retain investor confidence.",insight:"You secure survival. Immediate stability, but potential loss of control."},
+      {label:"B",text:"Negotiate terms while protecting core strategy.",insight:"You balance power. Strategic negotiation, but still constrained."},
+      {label:"C",text:"Reassess ownership structure, funding model, and long-term control.",insight:"You redefine independence. Long-term control, but higher short-term risk."}
+    ]},
+  { category:"Power, Capital & External Shock", flag:"Category 3", title:"Reputation Crisis Shock",
+    scenario:"A data breach exposes customer information. The story is already public.\n\nWhere do you act first?",
+    choices:[
+      {label:"A",text:"Issue a public response and contain reputational damage.",insight:"You manage perception. Fast response, but surface-level."},
+      {label:"B",text:"Activate internal crisis response across legal, tech, and communications.",insight:"You manage the crisis. Coordinated response, but reactive."},
+      {label:"C",text:"Reassess governance, risk management, and system vulnerabilities.",insight:"You build resilience. Prevents recurrence, but not immediate containment."}
+    ]}
+];
+
+const patterns = {
+  A:{
+    type:"You operate in control.",
+    body:"You stabilise quickly and protect what exists. When things start to break, you step in without hesitation — because you know the cost of inaction. Under pressure, you default to decisive action and immediate containment. The risk: you may carry too much — and miss the structural shifts happening beneath the surface.",
+    move:["Don't just fix the issue. Pause long enough to see the pattern.","Name what keeps repeating: where are you stepping in again and again?","Trace the root cause: what is driving this issue beneath the surface?","Remove one dependency: what can you shift, delegate, or redesign so it doesn't rely on you?","Lock the change in: what process, rule, or ownership will prevent this from returning?"],
+    question:"What am I solving right now that should not exist again in 3 months?"
+  },
+  B:{
+    type:"You operate in influence.",
+    body:"You read systems and people well. You can feel where tension sits — across teams, priorities, and expectations — and you instinctively move to hold it together. You balance stakeholders, manage complexity, and build bridges under pressure. The risk: that same balancing instinct can slow the decisive change the moment actually demands.",
+    move:["Force a decision point. Don't wait for authority — create clarity.","Frame the decision clearly: 'We need to choose between X and Y.'","Make the trade-offs visible: what each option costs, risks, and protects.","Propose a path forward: don't just facilitate — recommend.","Anchor ownership and timing: 'Who decides this, and by when?'"],
+    question:"What decision are we avoiding by staying in discussion?"
+  },
+  C:{
+    type:"You operate in future shaping.",
+    body:"You see beyond the immediate crisis. Even in pressure, your instinct is to step back and rethink the model — not just react to it. You redesign, reposition, and restructure — even under pressure. The risk: timing and execution become your biggest vulnerabilities when the business needs to move now.",
+    move:["Anchor your thinking in action. Bring the future closer.","Define the shift clearly: what must be different in the future state?","Translate to now: what is one move that starts this shift immediately?","Test before scaling: where can you pilot this without disrupting the whole system?","Align the system: who needs to move with you for this to work?"],
+    question:"What must happen in the next 7 days to make this real?"
+  }
+};
+
+// ── STATE ─────────────────────────────────────────────────────────────────────
+let index = 0;
+let answers = new Array(data.length).fill(null);
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+document.getElementById('logo-intro').innerHTML = LOGO;
+document.getElementById('logo-card').innerHTML = LOGO;
+document.getElementById('logo-final').innerHTML = LOGO;
+
+// ── CORE ──────────────────────────────────────────────────────────────────────
+function start() { show('card-screen'); render(); }
+
+function render() {
+  const c = data[index];
+
+  document.getElementById('counter').textContent = `${index + 1} / ${data.length}`;
+  ['flag-front','flag-back'].forEach(id => document.getElementById(id).textContent = c.flag);
+  document.getElementById('card-cat').textContent = c.category;
+  document.getElementById('card-title').textContent = c.title;
+  document.getElementById('back-title').textContent = c.title;
+  document.getElementById('card-scenario').textContent = c.scenario;
+
+  // Reset front
+  const wrap = document.getElementById('see-options-wrap');
+  const choicesEl = document.getElementById('choices');
+  choicesEl.innerHTML = '';
+  choicesEl.classList.remove('interactive');
+
+  c.choices.forEach(ch => {
+    const btn = document.createElement('button');
+    btn.className = 'choice-btn';
+    btn.innerHTML = `<span class="choice-label">${ch.label}</span>${ch.text}`;
+    btn.onclick = () => choose(ch.label);
+    choicesEl.appendChild(btn);
+  });
+
+  if (answers[index]) {
+    // Already answered — show choices immediately, no animation
+    wrap.style.display = 'none';
+    choicesEl.classList.add('interactive');
+    Array.from(choicesEl.children).forEach(btn => {
+      btn.style.opacity = '1';
+      btn.style.transform = 'translateY(0)';
+    });
+  } else {
+    wrap.style.display = 'block';
+    wrap.style.opacity = '1';
+  }
+
+  renderInsights();
+  renderDots();
+  document.getElementById('card').classList.remove('flipped');
+  document.getElementById('btn-prev').disabled = index === 0;
+  document.getElementById('btn-next').textContent = index === data.length - 1 ? 'See Results →' : 'Next →';
+}
+
+function revealChoices() {
+  const wrap = document.getElementById('see-options-wrap');
+  const choicesEl = document.getElementById('choices');
+
+  // Fade out button
+  wrap.style.transition = 'opacity .25s';
+  wrap.style.opacity = '0';
+  setTimeout(() => {
+    wrap.style.display = 'none';
+    // Stagger fade in each choice
+    choicesEl.classList.add('interactive');
+    Array.from(choicesEl.children).forEach((btn, i) => {
+      btn.style.animationDelay = `${i * 120}ms`;
+      btn.classList.add('visible');
+    });
+  }, 260);
+}
+
+function choose(label) {
+  answers[index] = label;
+  renderInsights();
+  renderDots();
+  setTimeout(() => {
+    document.getElementById('card').classList.add('flipped');
+    document.getElementById('card').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 130);
+}
+
+function renderInsights() {
+  const c = data[index];
+  const chosen = answers[index];
+  const el = document.getElementById('insights');
+  el.innerHTML = '';
+
+  c.choices.forEach(ch => {
+    const isChosen = chosen && ch.label === chosen;
+    const div = document.createElement('div');
+    div.className = 'insight-block' + (chosen ? (isChosen ? ' chosen' : ' unchosen') : '');
+    // Only show label + insight — NO Your Move / Your Question here
+    div.innerHTML = `
+      <div class="insight-label">${ch.label} — ${ch.text.split('.')[0]}</div>
+      <div class="insight-text">${ch.insight}</div>`;
+    el.appendChild(div);
+  });
+}
+
+function unflip() { document.getElementById('card').classList.remove('flipped'); }
+
+function next() {
+  if (index < data.length - 1) { index++; render(); }
+  else showResult();
+}
+
+function prev() { if (index > 0) { index--; render(); } }
+
+function renderDots() {
+  document.getElementById('dots').innerHTML = data.map((_, i) => {
+    let cls = 'dot';
+    if (i === index) cls += ' active';
+    else if (answers[i]) cls += ' answered';
+    return `<div class="${cls}"></div>`;
+  }).join('');
+}
+
+function showResult() {
+  show('final');
+  const count = { A:0, B:0, C:0 };
+  answers.forEach(a => { if (a) count[a]++; });
+  const dominant = Object.keys(count).reduce((a, b) => count[a] >= count[b] ? a : b);
+  const p = patterns[dominant];
+
+  document.getElementById('result-type').textContent = p.type;
+  document.getElementById('result-body').textContent = p.body;
+  document.getElementById('result-question').textContent = p.question;
+
+  // Staggered move items
+  const movesList = document.getElementById('result-moves');
+  movesList.innerHTML = p.move.map((m, i) =>
+    `<li style="animation-delay:${i * 100}ms">${m}</li>`
+  ).join('');
+
+  document.getElementById('result-tally').innerHTML = Object.entries(count).map(([k, v]) =>
+    `<div class="tally-item">
+      <div class="tally-count" style="color:${k===dominant?'var(--purple)':'var(--text-muted)'}">${v}</div>
+      <div class="tally-label">${k}</div>
+    </div>`
+  ).join('');
+}
+
+function restart() {
+  index = 0;
+  answers = new Array(data.length).fill(null);
+  show('intro');
+}
+
+function show(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function addCompanionReturnButtons() {
+  const companionHref = 'apply-playbook.html';
+  const makeReturnButton = (isPrimary = false) => {
+    const link = document.createElement('a');
+    link.className = `btn${isPrimary ? ' primary' : ''}`;
+    link.href = companionHref;
+    link.textContent = 'Return to SLP Companion';
+    return link;
+  };
+
+  const beginButton = document.querySelector('#intro button[onclick="start()"]');
+  if (beginButton && !document.querySelector('#intro .intro-actions')) {
+    const row = document.createElement('div');
+    row.className = 'intro-actions';
+    beginButton.parentNode.insertBefore(row, beginButton);
+    row.appendChild(beginButton);
+    row.appendChild(makeReturnButton(false));
+  }
+
+  const restartButton = document.querySelector('#final button[onclick="restart()"]');
+  if (restartButton && !document.querySelector('#final .final-actions')) {
+    const existingRow = restartButton.parentNode;
+    existingRow.className = 'final-actions';
+    existingRow.removeAttribute('style');
+    existingRow.appendChild(makeReturnButton(true));
+  }
+}
+
+addCompanionReturnButtons();
+</script>
+</body>
+</html>

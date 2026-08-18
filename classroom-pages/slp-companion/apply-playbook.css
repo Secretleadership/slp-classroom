@@ -197,9 +197,20 @@
   grid-template-columns: minmax(0, 760px);
 }
 
+.future-shaping-resource-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: stretch;
+}
+
+.future-shaping-resource-grid .worksheet-card {
+  min-height: 300px;
+  height: 100%;
+  align-content: start;
+}
+
 .build-scenario-entry {
   min-height: 260px;
-  align-content: center;
+  align-content: start;
 }
 
 .scenario-choice-grid {
@@ -340,6 +351,54 @@
 
 .worksheet-card.locked-card strong {
   color: var(--muted);
+}
+
+.tool-bullet-list {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding-left: 18px;
+  color: #fff;
+  font-weight: 800;
+}
+
+.tool-bullet-list li::marker {
+  color: var(--green-2);
+}
+
+.worksheet-card.flashcard-entry {
+  background: #3b1454;
+  border-color: rgba(199, 222, 0, 0.42);
+  color: #fff;
+}
+
+.worksheet-card.flashcard-entry h3,
+.worksheet-card.flashcard-entry p {
+  color: #fff;
+}
+
+.worksheet-card.flashcard-entry strong {
+  color: var(--green-2);
+}
+
+.worksheet-card.flashcard-entry:hover,
+.worksheet-card.flashcard-entry:focus-visible,
+.worksheet-card.flashcard-entry:active {
+  background: var(--green);
+  border-color: var(--purple);
+  box-shadow: 7px 7px 0 rgba(107, 42, 143, 0.5);
+}
+
+.worksheet-card.flashcard-entry:hover h3,
+.worksheet-card.flashcard-entry:hover p,
+.worksheet-card.flashcard-entry:hover strong,
+.worksheet-card.flashcard-entry:focus-visible h3,
+.worksheet-card.flashcard-entry:focus-visible p,
+.worksheet-card.flashcard-entry:focus-visible strong,
+.worksheet-card.flashcard-entry:active h3,
+.worksheet-card.flashcard-entry:active p,
+.worksheet-card.flashcard-entry:active strong {
+  color: #fff;
 }
 
 .non-member-preview #switch-profile {
@@ -863,6 +922,10 @@
   color: #fff;
 }
 
+.scenario-insight-panel .scenario-action-label {
+  color: #fff;
+}
+
 .scenario-actions {
   justify-content: flex-start;
   align-items: center;
@@ -934,6 +997,25 @@
   gap: 8px;
   color: var(--ink);
   font-weight: 900;
+}
+
+.horizon-add-grid textarea,
+.horizon-add-grid select,
+.horizon-add-grid input {
+  min-height: 140px;
+}
+
+.horizon-add-grid textarea[data-horizon-investment-text] {
+  padding: 38px 14px;
+  text-align: center;
+}
+
+.horizon-add-grid select {
+  overflow: hidden;
+  padding-right: 38px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: clamp(0.84rem, 1.2vw, 0.98rem);
 }
 
 .horizon-period-card {
@@ -1042,6 +1124,10 @@
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
+}
+
+.horizon-tradeoff-fields label {
+  color: #fff;
 }
 
 .horizon-investment-meta span {
